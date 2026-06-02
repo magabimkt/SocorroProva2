@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teoria e Sistemas em Psicologia</title>
+<style>
+:root{
+  --bg:#0c0c14;--bg2:#13131f;--bg3:#1b1b2a;--bg4:#242438;--bg5:#2e2e48;
+  --bd:rgba(160,140,255,.09);--bd2:rgba(160,140,255,.2);
+  --tx:#ede9ff;--tx2:#9b93cc;--tx3:#58527a;
+  --c1:#c084fc;--c1l:#e9d5ff;--c2:#f472b6;--c2l:#fce7f3;
+  --c3:#fb923c;--c3l:#fed7aa;--c4:#34d399;--c4l:#a7f3d0;
+  --c5:#60a5fa;--c5l:#bfdbfe;--c6:#f87171;--c6l:#fecaca;
+  --c7:#a3e635;--c7l:#d9f99d;
+  --r:14px;--rs:9px;--sh:0 10px 44px rgba(0,0,0,.65);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);line-height:1.78;}
+.shell{display:flex;min-height:100vh;}
+.sidebar{width:278px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--bd);position:fixed;top:0;left:0;height:100vh;overflow-y:auto;z-index:100;transition:transform .3s;}
+.main{margin-left:278px;flex:1;min-width:0;display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+.scr{flex:1;overflow-y:auto;overflow-x:hidden;}
+.scr::-webkit-scrollbar{width:5px;}.scr::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:3px;}
+.sidebar::-webkit-scrollbar{width:4px;}.sidebar::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px;}
+.sb-logo{padding:19px 18px 12px;border-bottom:1px solid var(--bd);}
+.sb-logo h2{font-size:11.5px;font-weight:800;color:var(--c1);letter-spacing:.09em;text-transform:uppercase;}
+.sb-logo p{font-size:11px;color:var(--tx3);margin-top:3px;}
+.sb-pb{padding:11px 18px;border-bottom:1px solid var(--bd);}
+.sb-pb-l{font-size:11px;color:var(--tx3);display:flex;justify-content:space-between;}
+.sb-bar{height:3px;background:var(--bg5);border-radius:2px;margin-top:5px;overflow:hidden;}
+.sb-bar-f{height:3px;background:linear-gradient(90deg,var(--c2),var(--c1));border-radius:2px;transition:width .4s;width:0%;}
+.sb-sec{padding:9px 18px 3px;font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3);}
+.sbn{list-style:none;padding:0 8px 8px;}
+.sbn li a{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--rs);font-size:12.5px;color:var(--tx2);text-decoration:none;transition:all .15s;cursor:pointer;}
+.sbn li a:hover{background:var(--bg3);color:var(--tx);}
+.sbn li a.active{background:rgba(192,132,252,.15);color:var(--c1l);}
+.qdot{width:22px;height:22px;border-radius:50%;background:var(--bg4);font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--tx3);transition:all .2s;}
+.qdot.done{background:var(--c4);color:#0c0c14;}
+.qlbl{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--bd);padding:0 26px;height:56px;flex-shrink:0;display:flex;align-items:center;gap:12px;z-index:50;}
+.topbar h1{font-size:14px;font-weight:600;flex:1;color:var(--tx2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.tb-acts{display:flex;gap:6px;flex-shrink:0;}
+.btn{padding:6px 13px;border-radius:20px;font-size:11.5px;font-weight:700;border:1px solid var(--bd2);background:transparent;color:var(--tx2);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:5px;}
+.btn:hover{background:var(--bg3);color:var(--tx);}
+.btn-p{background:var(--c1);border-color:var(--c1);color:#0c0c14;}
+.btn-p:hover{background:var(--c1l);color:#0c0c14;}
+.mtog{display:none;background:transparent;border:1px solid var(--bd);color:var(--tx2);padding:6px 10px;border-radius:var(--rs);cursor:pointer;font-size:16px;}
+.vtabs{display:flex;padding:0 26px;background:var(--bg2);border-bottom:1px solid var(--bd);flex-wrap:wrap;}
+.vtab{padding:11px 16px;font-size:12px;font-weight:700;cursor:pointer;border:none;border-bottom:3px solid transparent;background:transparent;color:var(--tx3);transition:all .15s;}
+.vtab.active{color:var(--c1);border-bottom-color:var(--c1);}
+.vtab:hover:not(.active){color:var(--tx2);}
+.cnt{padding:22px 26px 64px;}
+.panel{display:none;}.panel.active{display:block;}
+.hero{background:linear-gradient(135deg,rgba(192,132,252,.1),rgba(244,114,182,.07));border:1px solid var(--bd2);border-radius:var(--r);padding:26px;margin-bottom:20px;}
+.hero h2{font-size:20px;font-weight:800;margin-bottom:8px;}
+.hero p{font-size:13.5px;color:var(--tx2);max-width:600px;line-height:1.7;}
+.badges{display:flex;gap:7px;margin-top:13px;flex-wrap:wrap;}
+.bdg{padding:3px 11px;border-radius:20px;font-size:11px;font-weight:700;}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin-bottom:20px;}
+.sc{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:14px;text-align:center;}
+.sc .n{font-size:26px;font-weight:800;}.sc .l{font-size:11px;color:var(--tx3);margin-top:2px;}
+.stit{font-size:11px;font-weight:800;color:var(--tx3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:12px;margin-top:24px;}
+.pbw{margin-bottom:20px;}.pblbl{display:flex;justify-content:space-between;font-size:12.5px;color:var(--tx2);margin-bottom:7px;}
+.pbtrack{height:7px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.pbfill{height:7px;background:linear-gradient(90deg,var(--c2),var(--c1));border-radius:4px;transition:width .5s ease;width:0%;}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:13px;margin-bottom:22px;}
+.tcard{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:16px 16px 16px 20px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;}
+.tcard:hover{transform:translateY(-3px);box-shadow:var(--sh);}
+.tcard .tb{position:absolute;left:0;top:0;width:5px;height:100%;border-radius:2px 0 0 2px;}
+.tcard .tic{font-size:22px;margin-bottom:7px;}
+.tcard h3{font-size:13.5px;font-weight:700;margin-bottom:4px;}
+.tcard p{font-size:11.5px;color:var(--tx3);line-height:1.45;}
+.tl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:10px;margin-bottom:22px;}
+.tl-card{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s;}
+.tl-card:hover{border-color:var(--c1);transform:translateY(-2px);box-shadow:var(--sh);}
+.tl-card h3{font-size:12.5px;font-weight:700;margin-bottom:4px;}
+.tl-card p{font-size:11px;color:var(--tx3);}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:20px;margin-bottom:14px;}
+.ctit{font-size:10.5px;font-weight:800;color:var(--tx3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:11px;}
+.qhdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--bd);}
+.qbdg{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;margin-top:2px;}
+.qtwrap{flex:1;}
+.qtwrap h2{font-size:19px;font-weight:800;line-height:1.3;}
+.qsub{font-size:13px;color:var(--tx3);margin-top:4px;font-style:italic;}
+.qnav{display:flex;gap:7px;margin-top:11px;align-items:center;flex-wrap:wrap;}
+.qnbtn{padding:5px 12px;border-radius:14px;font-size:11.5px;font-weight:700;border:1px solid var(--bd2);background:transparent;color:var(--tx3);cursor:pointer;transition:all .15s;}
+.qnbtn:hover{background:var(--bg3);color:var(--tx2);}
+.done-btn{padding:6px 13px;border-radius:14px;font-size:11.5px;font-weight:700;border:1px solid var(--bd2);background:transparent;color:var(--tx2);cursor:pointer;transition:all .2s;margin-left:auto;}
+.done-btn:hover{background:var(--bg3);}
+.done-btn.done{background:rgba(52,211,153,.18);border-color:var(--c4);color:var(--c4l);}
+.kpills{display:flex;flex-wrap:wrap;gap:6px;}
+.kp{padding:4px 11px;border-radius:20px;font-size:11.5px;font-weight:600;background:rgba(192,132,252,.1);color:var(--c1l);border:1px solid rgba(192,132,252,.2);}
+.ab{font-size:14.5px;line-height:1.88;color:var(--tx);}
+.ab p{margin-bottom:13px;}.ab ul,.ab ol{padding-left:1.4rem;margin-bottom:13px;}
+.ab li{margin-bottom:9px;}.ab strong{color:var(--c1l);font-weight:700;}.ab em{color:var(--c3l);}
+.ab h4{font-size:14px;font-weight:800;color:var(--c3l);margin:18px 0 9px;padding-bottom:5px;border-bottom:1px solid var(--bd);}
+.note{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.18);border-left:3px solid var(--c5);border-radius:var(--rs);padding:11px 15px;margin:12px 0;font-size:13.5px;color:var(--c5l);}
+.note strong{color:var(--c5l);}
+.contrast{background:rgba(251,146,60,.07);border:1px solid rgba(251,146,60,.18);border-left:3px solid var(--c3);border-radius:var(--rs);padding:11px 15px;margin:12px 0;font-size:13.5px;color:var(--c3l);}
+.contrast strong{color:var(--c3l);}
+.mnem{background:rgba(244,114,182,.1);border:1px solid rgba(244,114,182,.25);border-left:3px solid var(--c2);border-radius:var(--rs);padding:12px 15px;margin:13px 0;font-size:13.5px;color:var(--c2l);}
+.mnem strong{color:var(--c2l);}
+.refbox{background:var(--bg3);border-radius:var(--rs);padding:12px 15px;font-size:12px;color:var(--tx3);line-height:1.75;border:1px solid var(--bd);}
+.conn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:12px;margin-bottom:16px;}
+.conn-card{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:15px;transition:all .2s;cursor:pointer;}
+.conn-card:hover{transform:translateY(-2px);box-shadow:var(--sh);}
+.mmwrap{width:100%;overflow-x:auto;padding:4px 0;}
+.mmwrap svg{display:block;min-width:840px;}
+.ctable{width:100%;border-collapse:collapse;margin:12px 0;}
+.ctable th,.ctable td{padding:10px 13px;border:1px solid var(--bd2);vertical-align:top;text-align:left;font-size:12.5px;}
+.ctable th{background:var(--bg4);color:var(--tx2);font-weight:800;font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+.ctable tr:nth-child(even) td{background:rgba(255,255,255,.015);}
+.ctable td:first-child{font-weight:700;}
+.tl{position:relative;padding-left:32px;margin:10px 0 20px;}
+.tl::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7));}
+.tli{position:relative;margin-bottom:20px;}
+.tli-in{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:15px 16px;}
+.tl-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.tl-yr{font-size:11px;font-weight:800;padding:3px 9px;border-radius:10px;flex-shrink:0;}
+.tl-tag{font-size:11px;font-weight:700;opacity:.85;}
+.tl-title{font-size:14px;font-weight:700;margin-bottom:6px;}
+.tl-body{font-size:13px;color:var(--tx2);line-height:1.65;}
+.tl-body strong{color:var(--tx);font-weight:600;}
+.fcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:15px;margin-bottom:20px;}
+.fc{height:200px;perspective:1000px;cursor:pointer;}
+.fcin{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s;}
+.fc.flip .fcin{transform:rotateY(180deg);}
+.fcf,.fcb{position:absolute;width:100%;height:100%;backface-visibility:hidden;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);display:flex;align-items:center;justify-content:center;padding:18px;text-align:center;flex-direction:column;gap:7px;}
+.fcb{transform:rotateY(180deg);background:var(--bg3);}
+.fctag{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--tx3);}
+.fcf p{font-size:13.5px;font-weight:700;color:var(--tx);line-height:1.5;}
+.fcb p{font-size:12px;color:var(--tx2);line-height:1.6;}
+.fchint{font-size:10px;color:var(--tx3);position:absolute;bottom:9px;right:11px;}
+.qshell{max-width:700px;margin:0 auto;}
+.qpbar{height:5px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:20px;}
+.qpfill{height:5px;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:3px;transition:width .4s;}
+.qinfo{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;font-size:12.5px;color:var(--tx3);}
+.qq-card{background:var(--bg2);border:1px solid var(--bd2);border-radius:var(--r);padding:22px;margin-bottom:14px;}
+.qq-tema{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
+.qq-text{font-size:15px;font-weight:600;line-height:1.65;color:var(--tx);margin-bottom:4px;}
+.qopts{display:flex;flex-direction:column;gap:8px;margin-top:16px;}
+.qopt{padding:12px 16px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--bg3);color:var(--tx2);font-size:13.5px;cursor:pointer;text-align:left;transition:all .15s;line-height:1.5;}
+.qopt:hover:not(:disabled){border-color:var(--c1);color:var(--tx);}
+.qopt.correct{background:rgba(52,211,153,.15);border-color:var(--c4);color:var(--c4l);}
+.qopt.wrong{background:rgba(248,113,113,.1);border-color:var(--c6);color:var(--c6l);}
+.qfb{border-radius:var(--r);padding:15px 17px;margin-top:14px;display:none;line-height:1.7;}
+.qfb.show{display:block;}
+.qfb.ok{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);}
+.qfb.nok{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);}
+.qfb-head{font-size:14px;font-weight:800;margin-bottom:7px;}
+.qfb-body{font-size:13px;color:var(--tx2);line-height:1.65;}
+.qfb-body strong{color:var(--tx);font-weight:600;}
+.qfb-ref{font-size:11.5px;color:var(--tx3);margin-top:9px;padding-top:9px;border-top:1px solid var(--bd);}
+.qnav{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap;}
+.sbtn{padding:7px 14px;border-radius:14px;font-size:12px;font-weight:700;border:1px solid var(--bd2);background:transparent;color:var(--tx3);cursor:pointer;transition:all .15s;}
+.sbtn:hover{background:var(--bg3);color:var(--tx2);}
+.score-card{background:linear-gradient(135deg,rgba(192,132,252,.12),rgba(244,114,182,.08));border:1px solid var(--bd2);border-radius:var(--r);padding:28px;text-align:center;}
+.score-card h2{font-size:22px;font-weight:800;margin-bottom:8px;}
+.score-card p{font-size:14px;color:var(--tx2);margin-bottom:18px;}
+.big-score{font-size:56px;font-weight:900;margin:12px 0;}
+.aiwrap{background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;}
+.qps{display:flex;flex-wrap:wrap;gap:6px;padding:11px 13px 0;}
+.qpbtn{padding:5px 10px;border-radius:13px;font-size:11.5px;border:1px solid var(--bd2);background:transparent;color:var(--tx3);cursor:pointer;transition:all .15s;}
+.qpbtn:hover{background:var(--bg3);color:var(--tx2);}
+.aimsgs{padding:13px;min-height:160px;max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:11px;}
+.aimsgs::-webkit-scrollbar{width:4px;}.aimsgs::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:2px;}
+.aimsg{display:flex;gap:9px;align-items:flex-start;}
+.aiav{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
+.aimsg.user .aiav{background:rgba(192,132,252,.2);color:var(--c1);}
+.aimsg.bot .aiav{background:rgba(52,211,153,.18);color:var(--c4l);}
+.aibub{background:var(--bg3);border-radius:var(--rs);padding:9px 13px;font-size:13.5px;line-height:1.75;flex:1;border:1px solid var(--bd);color:var(--tx);}
+.aimsg.user .aibub{background:rgba(192,132,252,.07);border-color:rgba(192,132,252,.15);}
+.airow{display:flex;gap:7px;padding:9px 13px;border-top:1px solid var(--bd);}
+.aiinp{flex:1;background:var(--bg3);border:1px solid var(--bd2);border-radius:var(--rs);padding:9px 12px;color:var(--tx);font-size:13px;outline:none;resize:none;font-family:inherit;}
+.aiinp:focus{border-color:var(--c1);}
+.aisend{padding:9px 15px;background:var(--c1);border:none;border-radius:var(--rs);color:#0c0c14;font-weight:800;font-size:12.5px;cursor:pointer;transition:background .15s;flex-shrink:0;}
+.aisend:hover{background:var(--c1l);}.aisend:disabled{opacity:.5;cursor:not-allowed;}
+.typing{display:flex;gap:5px;align-items:center;padding:4px 0;}
+.dot{width:6px;height:6px;background:var(--c1);border-radius:50%;animation:bnc .9s infinite;}
+.dot:nth-child(2){animation-delay:.15s;}.dot:nth-child(3){animation-delay:.3s;}
+@keyframes bnc{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-6px);}}
+.ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99;}
+.ovl.show{display:block;}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%);}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}.mtog{display:block;}
+  .cnt{padding:16px 14px 64px;}.vtabs{padding:0 14px;}.topbar{padding:0 12px;}
+  .fcgrid{grid-template-columns:1fr 1fr;}.tgrid{grid-template-columns:1fr 1fr;}}
+@keyframes fU{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.fu{animation:fU .28s ease forwards;}
+</style>
+</head>
+<body>
+<div class="ovl" id="ovl" onclick="closeSb()"></div>
+<div class="shell">
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo"><h2>Teoria &amp; Sistemas</h2><p>UNINASSAU · Psicologia 1º Período</p></div>
+  <div class="sb-pb">
+    <div class="sb-pb-l"><span>Progresso</span><span id="pbl2">0/7</span></div>
+    <div class="sb-bar"><div class="sb-bar-f" id="pf2"></div></div>
+  </div>
+  <div class="sb-sec">Ferramentas</div>
+  <ul class="sbn">
+    <li><a id="sb-home" onclick="goHome()">🏠 <span class="qlbl">Início</span></a></li>
+    <li><a id="sb-quiz" onclick="goSec('quiz')">✏️ <span class="qlbl">Quiz Completo</span></a></li>
+    <li><a id="sb-mm" onclick="goSec('mm')">🗺️ <span class="qlbl">Mapas Mentais</span></a></li>
+    <li><a id="sb-fc" onclick="goSec('fc')">🃏 <span class="qlbl">Flashcards</span></a></li>
+    <li><a id="sb-tl" onclick="goSec('tl')">📅 <span class="qlbl">Linha do Tempo</span></a></li>
+    <li><a id="sb-cmp" onclick="goSec('cmp')">⚖️ <span class="qlbl">Comparativo</span></a></li>
+    <li><a id="sb-conn" onclick="goSec('conn')">🔗 <span class="qlbl">Conexões entre Temas</span></a></li>
+  </ul>
+  <div class="sb-sec">Temas</div>
+  <ul class="sbn" id="sb-temas"></ul>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <button class="mtog" onclick="toggleSb()">☰</button>
+    <h1 id="toptit">Teoria e Sistemas em Psicologia</h1>
+    <div class="tb-acts">
+      <button class="btn" onclick="goSec('quiz')">✏️ Quiz</button>
+      <button class="btn" onclick="goSec('tl')">📅 Linha do Tempo</button>
+      <button class="btn btn-p" onclick="goSec('mm')">🗺️ Mapas</button>
+    </div>
+  </div>
+  <div class="scr" id="scr">
+  <!-- HOME -->
+  <div id="sec-home" class="cnt">
+    <div class="hero fu">
+      <h2>Teoria e Sistemas em Psicologia 🧠</h2>
+      <p>7 temas aprofundados com mapas mentais, quiz navegável e referenciado, flashcards, linha do tempo densa, comparativo, conexões entre correntes e IA para aprofundar cada tema.</p>
+      <div class="badges">
+        <span class="bdg" style="background:rgba(192,132,252,.15);color:var(--c1l);border:1px solid rgba(192,132,252,.3)">7 Temas Completos</span>
+        <span class="bdg" style="background:rgba(244,114,182,.15);color:var(--c2l);border:1px solid rgba(244,114,182,.3)">Quiz Navegável c/ Referências</span>
+        <span class="bdg" style="background:rgba(52,211,153,.15);color:var(--c4l);border:1px solid rgba(52,211,153,.3)">Mapas Mentais Corrigidos</span>
+        <span class="bdg" style="background:rgba(251,146,60,.15);color:var(--c3l);border:1px solid rgba(251,146,60,.3)">Linha do Tempo Rica</span>
+        <span class="bdg" style="background:rgba(96,165,250,.15);color:var(--c5l);border:1px solid rgba(96,165,250,.3)">Conexões entre Correntes</span>
+      </div>
+    </div>
+    <div class="pbw">
+      <div class="pblbl"><span>Progresso de estudo</span><span id="pbl1">0 de 7 temas concluídos</span></div>
+      <div class="pbtrack"><div class="pbfill" id="pf1"></div></div>
+    </div>
+    <div class="stats-row">
+      <div class="sc"><div class="n" id="stat-done" style="color:var(--c4)">0</div><div class="l">Estudados</div></div>
+      <div class="sc"><div class="n" id="stat-quiz" style="color:var(--c1)">0</div><div class="l">Quiz respondidos</div></div>
+      <div class="sc"><div class="n" style="color:var(--c2)">7</div><div class="l">Temas</div></div>
+      <div class="sc"><div class="n" style="color:var(--c3)">14</div><div class="l">Questões de Quiz</div></div>
+    </div>
+    <div class="stit">Temas da disciplina</div>
+    <div class="tgrid" id="home-grid"></div>
+    <div class="stit">Ferramentas de aprendizagem</div>
+    <div class="tl-grid">
+      <div class="tl-card" onclick="goSec('quiz')"><h3>✏️ Quiz Completo</h3><p>14 questões navegáveis com gabarito comentado e referências bibliográficas</p></div>
+      <div class="tl-card" onclick="goSec('mm')"><h3>🗺️ Mapas Mentais</h3><p>Diagramas visuais corrigidos de cada corrente com autores e conceitos</p></div>
+      <div class="tl-card" onclick="goSec('fc')"><h3>🃏 Flashcards</h3><p>Recuperação espaçada — vire e teste sua memória em 7 cartas</p></div>
+      <div class="tl-card" onclick="goSec('tl')"><h3>📅 Linha do Tempo</h3><p>Marcos históricos aprofundados de 1637 a 2009 com contexto teórico</p></div>
+      <div class="tl-card" onclick="goSec('cmp')"><h3>⚖️ Comparativo</h3><p>Todas as correntes lado a lado com eixos de tensão — ideal para dissertativas</p></div>
+      <div class="tl-card" onclick="goSec('conn')"><h3>🔗 Conexões</h3><p>Antecedentes, sucessores e diálogos entre as correntes no tempo</p></div>
+    </div>
+  </div>
+
+  <!-- TEMA DETALHE -->
+  <div id="sec-tema" style="display:none">
+    <div class="vtabs" id="vtabs-bar">
+      <button class="vtab active" data-p="conteudo" onclick="swTab('conteudo',this)">📖 Conteúdo</button>
+      <button class="vtab" data-p="mapa" onclick="swTab('mapa',this)">🗺️ Mapa Mental</button>
+      <button class="vtab" data-p="conexoes" onclick="swTab('conexoes',this)">🔗 Conexões</button>
+      <button class="vtab" data-p="ia" onclick="swTab('ia',this)">🤖 Aprofundar com IA</button>
+    </div>
+    <div class="cnt">
+      <div class="qhdr fu">
+        <div class="qbdg" id="qbdg"></div>
+        <div class="qtwrap">
+          <h2 id="qtit"></h2>
+          <div class="qsub" id="qsub"></div>
+          <div class="qnav">
+            <button class="qnbtn" id="btn-prev" onclick="navQ(-1)">← Anterior</button>
+            <button class="qnbtn" id="btn-next" onclick="navQ(1)">Próximo →</button>
+            <button class="qnbtn" onclick="goQuizTema()" style="border-color:var(--c2);color:var(--c2l)">✏️ Quiz deste tema</button>
+            <button class="done-btn" id="done-btn" onclick="toggleDone()">Marcar como estudado</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel active" id="panel-conteudo">
+        <div class="card fu"><div class="ctit">Palavras-chave e conceitos</div><div class="kpills" id="kpills"></div></div>
+        <div class="card fu"><div id="mnem-wrap"></div><div class="ab" id="ab-main"></div></div>
+        <div class="card fu"><div class="ctit">Autores, obras e referências</div><div class="refbox" id="refbox"></div></div>
+      </div>
+      <div class="panel" id="panel-mapa">
+        <div class="card fu"><div class="ctit">Mapa mental — <span id="mm-tit"></span></div><div class="mmwrap" id="q-mm"></div></div>
+        <div class="ab"><div class="note">💡 <strong>Dica:</strong> Após estudar, feche os olhos e reconstrua o mapa mentalmente. Essa reconstrução ativa é mais eficaz do que a leitura passiva (Roediger, 2011).</div></div>
+      </div>
+      <div class="panel" id="panel-conexoes">
+        <div class="card fu"><div class="ctit">Antecedentes, sucessores e diálogos</div><div class="conn-grid" id="conn-grid"></div></div>
+        <div class="card fu"><div class="ctit">Mapa de conexões — <span id="conn-tit"></span></div><div class="mmwrap" id="conn-mm"></div></div>
+        <div class="ab"><div class="note">💡 <strong>Dica:</strong> Compreender o que veio antes e depois é fundamental para questões dissertativas que pedem comparação ou evolução histórica.</div></div>
+      </div>
+      <div class="panel" id="panel-ia">
+        <div class="aiwrap fu">
+          <div class="qps" id="qps"></div>
+          <div class="aimsgs" id="aimsgs"></div>
+          <div class="airow">
+            <textarea class="aiinp" id="ai-inp" rows="2" placeholder="Faça uma pergunta sobre este tema..."></textarea>
+            <button class="aisend" id="ai-btn" onclick="sendAI()">Enviar</button>
+          </div>
+        </div>
+        <div class="ab" style="margin-top:12px"><div class="note">💡 <strong>Elaboração ativa:</strong> Formular suas próprias perguntas aprofunda muito mais a compreensão do que apenas ler respostas prontas (Chi et al., 1994).</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="sec-quiz" style="display:none">
+    <div class="cnt">
+      <div class="stit" style="margin-top:0">✏️ Quiz Completo — 14 Questões</div>
+      <div class="ab"><p style="margin-bottom:16px">Responda em sequência. Após cada resposta veja o gabarito comentado com referência. Use "Estudar este tema" para consultar o conteúdo a qualquer momento. Navegue livremente com ← →.</p></div>
+      <div class="qshell" id="qshell"></div>
+    </div>
+  </div>
+
+  <!-- MAPAS MENTAIS -->
+  <div id="sec-mm" style="display:none">
+    <div class="cnt">
+      <div class="stit" style="margin-top:0">🗺️ Mapas Mentais — todos os temas</div>
+      <div class="tl-grid" id="mm-btns" style="margin-bottom:16px"></div>
+      <div class="card" id="mm-main"></div>
+      <div class="ab"><div class="note">💡 <strong>Aprendizagem visual:</strong> Mapas mentais ativam processamento visual e verbal simultaneamente, aumentando retenção em até 32% (Farrand et al., 2002).</div></div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="sec-fc" style="display:none">
+    <div class="cnt">
+      <div class="stit" style="margin-top:0">🃏 Flashcards — clique para revelar</div>
+      <div class="fcgrid" id="fcgrid"></div>
+      <div class="ab"><div class="note">💡 <strong>Recuperação espaçada:</strong> Hoje → amanhã → 3 dias → 1 semana. Técnica de memorização mais eficaz comprovada (Ebbinghaus, 1885; Cepeda et al., 2006).</div></div>
+    </div>
+  </div>
+
+  <!-- LINHA DO TEMPO -->
+  <div id="sec-tl" style="display:none">
+    <div class="cnt">
+      <div class="stit" style="margin-top:0">📅 Linha do Tempo — História da Psicologia</div>
+      <div class="ab"><p style="margin-bottom:20px">Cada entrada mostra o evento, seu <strong>significado teórico</strong> e como conecta às correntes estudadas. Contextualizar cada teoria em seu momento histórico é essencial para questões dissertativas.</p></div>
+      <div class="tl" id="tl-wrap"></div>
+    </div>
+  </div>
+
+  <!-- COMPARATIVO -->
+  <div id="sec-cmp" style="display:none">
+    <div class="cnt">
+      <div class="stit" style="margin-top:0">⚖️ Tabela Comparativa — Correntes Teóricas</div>
+      <div class="card">
+        <div class="ab"><p>Pares mais cobrados em provas: <strong>Estruturalismo × Funcionalismo</strong>, <strong>Vitalismo × Mecanicismo</strong>, <strong>Historicismo × Estruturalismo</strong>, <strong>Decolonialismo × Epistemicídio</strong>, <strong>Fenomenologia × Behaviorismo</strong>.</p></div>
+        <div style="overflow-x:auto;margin-top:14px"><table class="ctable" id="ctable"></table></div>
+      </div>
+      <div class="card">
+        <div class="ctit">Eixos de tensão fundamentais</div>
+        <div class="ab">
+          <div class="contrast">⚙️ <strong>Mecanicismo vs. Organicismo/Vitalismo:</strong> o ser vivo é máquina redutível a partes (mecanicismo) ou organismo integrado irredutível com princípio vital (organicismo/vitalismo)?</div>
+          <div class="contrast">🌍 <strong>Universalismo vs. Contextualismo:</strong> existem leis psicológicas universais (estruturalismo, positivismo) ou todo fenômeno humano depende de contexto histórico-cultural-geopolítico (historicismo, decolonialismo)?</div>
+          <div class="contrast">👁️ <strong>Objetivismo vs. Subjetividade vivida:</strong> psicologia deve estudar apenas o observável (behaviorismo, estruturalismo) ou a experiência vivida tal como aparece à consciência (fenomenologia)?</div>
+          <div class="contrast">📖 <strong>Hegemonia epistêmica vs. Pluralidade:</strong> ciência ocidental é o único conhecimento legítimo (mainstream) ou existem múltiplas formas válidas de conhecer (decolonialismo, ecologia dos saberes)?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONEXÕES -->
+  <div id="sec-conn" style="display:none">
+    <div class="cnt">
+      <div class="stit" style="margin-top:0">🔗 Conexões entre Temas e Escolas</div>
+      <div class="card fu"><div class="ctit">Mapa geral de relações</div><div class="mmwrap" id="global-mm"></div></div>
+      <div class="stit">Diálogos, oposições e heranças</div>
+      <div id="global-conn-list"></div>
+    </div>
+  </div>
+
+  </div></div></div>
+<script>
+const T=[
+{id:1,icon:'🌿',cor:'#c084fc',title:'Vitalismo',sub:'A força vital que distingue o ser vivo da matéria inerte',
+kws:['élan vital','força vital','Bergson','Stahl','Driesch','entelechia','anima','antimecanicismo','tendência atualizante','Rogers','holismo'],
+mnem:'<strong>S → B → D:</strong> <strong>S</strong>tahl (anima, 1708) → <strong>B</strong>ergson (élan vital, 1907) → <strong>D</strong>riesch (entelechia). Na psicologia: Rogers herda o élan vital na <strong>tendência atualizante</strong>.',
+content:`<h4>O que é o Vitalismo?</h4><p>Corrente filosófica e científica que postula a existência de um <strong>princípio vital</strong> irredutível — força, energia ou qualidade que distingue os seres vivos da matéria inanimada. Os fenômenos da vida (crescimento, regeneração, consciência) não podem ser <em>completamente</em> explicados por leis físicas e químicas.</p>
+<h4>Origens: a reação ao mecanicismo cartesiano</h4><p>Descartes (1637) descreveu o corpo como máquina (<em>res extensa</em>). O vitalismo surgiu como reação: a vida não é apenas mecânica.</p>
+<ul><li><strong>Georg Ernst Stahl (1659–1734):</strong> formulou a <em>anima</em> como princípio imaterial que governa os processos vitais. Doenças são perturbações da anima — antecipa perspectivas psicossomáticas;</li>
+<li><strong>Henri Bergson (1859–1941, Nobel 1927):</strong> em <em>A evolução criadora</em> (1907), propõe o <em>élan vital</em> — impulso criativo e irracional que perpassa toda a vida e sua evolução. A inteligência analítica fragmenta o que é essencialmente movimento e duração (<em>durée</em>). Só a intuição alcança o élan vital;</li>
+<li><strong>Hans Driesch (1867–1941):</strong> experimentos com embriões de ouriço-do-mar mostraram que fragmentos regeneram o organismo completo. Propôs <em>entelechia</em> (Aristóteles) como fator não material regulador do desenvolvimento.</li></ul>
+<h4>Ressonâncias na Psicologia</h4><ul>
+<li><strong>Carl Rogers — Tendência atualizante:</strong> força inerente que move todo organismo em direção ao crescimento, complexidade e autonomia. Como a planta cresce em direção à luz mesmo em condições adversas, o ser humano tende à autorrealização — eco direto do élan vital bergsoniano;</li>
+<li><strong>Abraham Maslow:</strong> hierarquia de necessidades e impulso à autorrealização como forças motivacionais intrínsecas;</li>
+<li><strong>Carl Gustav Jung:</strong> libido como energia psíquica geral (não apenas sexual), uma força vital que se manifesta em diferentes formas;</li>
+<li><strong>Psicologia da Gestalt:</strong> o todo é mais que a soma das partes — propriedades emergentes que não se reduzem a elementos isolados.</li></ul>
+<h4>Vitalismo vs. Mecanicismo</h4>
+<div class="contrast">⚙️ <strong>Mecanicismo (Descartes, La Mettrie):</strong> organismo = máquina complexa; tudo se reduz a processos físico-químicos; sem diferença qualitativa entre vivo e inerte.<br><br>🌿 <strong>Vitalismo (Bergson, Stahl, Driesch):</strong> princípio irredutível distingue o vivo do inerte; vida = criatividade, indeterminação e duração; não pode ser prevista nem reduzida à mecânica.</div>
+<h4>Críticas</h4><ul>
+<li>Conceito de "força vital" não testável empiricamente — viola o critério de falsificabilidade (Popper);</li>
+<li>Com avanço da bioquímica (síntese da ureia por Wöhler, 1828; DNA em 1953), muitos fenômenos foram desmistificados;</li>
+<li>Porém: questões como consciência, qualia e experiência subjetiva continuam desafiando explicações puramente mecanicistas.</li></ul>
+<div class="note">📌 <strong>Para a prova:</strong> Vitalismo → Humanismo (Rogers) → Fenomenologia. Esses três compartilham a recusa de reduzir o ser humano a mecanismos.</div>`,
+ref:'Bergson, H. (1907/2005). A evolução criadora. Martins Fontes. | Stahl, G.E. (1708). Theoria medica vera. | Driesch, H. (1908). The Science and Philosophy of the Organism. | Rogers, C. (1961). Tornar-se pessoa. | Schultz, D.P. & Schultz, S.E. (2019). História da Psicologia Moderna. Cengage.',
+mm:{center:'Vitalismo',bs:[
+  {l:'Autores centrais',c:'#c084fc',s:['Bergson: élan vital 1907','Stahl: anima 1708','Driesch: entelechia','Aristóteles: psykhé']},
+  {l:'Conceitos',c:'#34d399',s:['Força vital irredutível','Durée (duração)','Intuição vs. intelecto','Auto-organização']},
+  {l:'Na Psicologia',c:'#60a5fa',s:['Rogers: tend. atualizante','Maslow: autorrealização','Jung: libido como energia','Gestalt: emergência']},
+  {l:'Oposição a',c:'#f87171',s:['Mecanicismo (Descartes)','Reducionismo','Materialismo','Determinismo físico']}]},
+conns:[
+  {tipo:'Antecede',cor:'#34d399',nome:'Psicologia Humanista',desc:'A tendência atualizante de Rogers herda diretamente o élan vital bergsoniano como força criativa e orientadora do organismo.'},
+  {tipo:'Antecede',cor:'#60a5fa',nome:'Fenomenologia',desc:'A crítica vitalista ao mecanicismo prepara o terreno fenomenológico, que também recusa reduzir a experiência a elementos mecânicos.'},
+  {tipo:'Dialoga com',cor:'#a3e635',nome:'Matriz Organicista',desc:'Ambos rejeitam o reducionismo. O organicismo foca na integração das partes; o vitalismo postula um princípio vital irredutível.'},
+  {tipo:'Opõe-se a',cor:'#f87171',nome:'Mecanicismo / Behaviorismo',desc:'Mecanicismo (Descartes) e behaviorismo (Watson) negam qualquer princípio irredutível — o organismo é máquina, o comportamento é resposta.'}],
+fQ:'O que é o Vitalismo e qual seu conceito central?',
+fA:'Postula um princípio vital irredutível (élan vital–Bergson; anima–Stahl; entelechia–Driesch). Na psicologia ressoa na tendência atualizante (Rogers), libido junguiana e Gestalt. Surge em reação ao mecanicismo cartesiano.',
+quizzes:[
+  {q:'O Vitalismo postula a existência de:',
+   opts:[{t:'Uma força motriz puramente mecânica e determinista',c:false},
+         {t:'Um princípio vital irredutível que distingue seres vivos da matéria inanimada',c:true},
+         {t:'A primazia do intelecto sobre as emoções',c:false},
+         {t:'A explicação do comportamento exclusivamente por estímulos externos',c:false}],
+   ok:'Correto! O vitalismo afirma que a vida possui um princípio irredutível — élan vital (Bergson), anima (Stahl) ou entelechia (Driesch).',
+   nok:'O vitalismo é o oposto do mecanicismo: postula que a vida não se reduz a forças físicas e químicas.',
+   ref:'Bergson, H. (1907). A evolução criadora. | Schultz, D.P. (2019). História da Psicologia Moderna, cap. 5.'},
+  {q:'A "tendência atualizante" de Rogers se relaciona ao Vitalismo porque:',
+   opts:[{t:'Rogers foi discípulo direto de Bergson',c:false},
+         {t:'Ambos postulam uma força ou princípio orientador intrínseco ao organismo, irredutível a mecanismos externos',c:true},
+         {t:'Rogers negava a existência do inconsciente',c:false},
+         {t:'O vitalismo fundamenta o método introspectivo wundtiano',c:false}],
+   ok:'Correto! A tendência atualizante ressoa com o élan vital: forças criativas e auto-organizadoras inerentes ao ser vivo.',
+   nok:'Rogers e Bergson compartilham a ideia central de uma força vital orientadora do organismo — não uma relação pessoal.',
+   ref:'Rogers, C. (1961). Tornar-se pessoa. | Bergson, H. (1907). A evolução criadora.'}]
+},
+
+{id:2,icon:'🌍',cor:'#f472b6',title:'Decolonialismo e Psicologias Brasileiras',sub:'Descolonizando o saber psicológico por epistemologias plurais',
+kws:['colonialidade do poder','Quijano','Boaventura de Sousa Santos','epistemologias do Sul','eurocentrismo','Frantz Fanon','Walter Mignolo','Silvia Lane','psicologia comunitária','racismo epistêmico'],
+mnem:'Decolonialismo: <strong>D</strong>esmontar o <strong>E</strong>urocentrismo, <strong>C</strong>onstruir <strong>O</strong>utras epistemologias, <strong>L</strong>ocais, <strong>O</strong>riginais. Trio: <strong>Quijano → Fanon → Boaventura</strong>.',
+content:`<h4>O que é o Decolonialismo?</h4><p>Projeto intelectual e político latinoamericano que questiona as estruturas de poder, conhecimento e ser herdadas e mantidas pelo colonialismo europeu. Distingue-se do <em>pós-colonialismo</em> anglófono por afirmar que a colonialidade <em>não terminou</em> com as independências formais — ela persiste nas instituições, currículos, diagnósticos, corpos e subjetividades.</p>
+<h4>Colonialidade: poder, saber e ser</h4><ul>
+<li><strong>Aníbal Quijano (Peru, 1928–2018):</strong> <em>colonialidade do poder</em> — o colonialismo criou uma hierarquia racial global que sobrevive ao domínio formal. A raça é uma invenção colonial usada para justificar dominação;</li>
+<li><strong>Walter Mignolo (Argentina):</strong> <em>colonialidade do saber</em> — imposição das epistemologias europeias como únicas formas legítimas de conhecimento. O "ponto zero" da epistemologia moderna é ilusório: todo conhecimento é situado;</li>
+<li><strong>María Lugones:</strong> <em>colonialidade do gênero</em> — o colonialismo também impôs categorias de gênero binárias sobre povos que tinham outras formas de organizar diferenças;</li>
+<li><strong>Frantz Fanon (Martinica, 1925–1961):</strong> em <em>Pele negra, máscaras brancas</em> (1952), analisa o impacto psicológico do colonialismo. O colonizado internaliza a inferioridade imposta — alienação racial que destrói a identidade.</li></ul>
+<h4>Decolonialismo na Psicologia Brasileira</h4><ul>
+<li>Currículo hegemônico reproduz autores europeus e norte-americanos como universais, invisibilizando produções locais;</li>
+<li><strong>Aplicação acrítica de testes padronizados</strong> criados para populações norte-americanas em contextos brasileiros — violação metodológica e epistemológica;</li>
+<li><strong>Silvia Lane (1933–2002):</strong> fundadora da Psicologia Social Crítica no Brasil. Propõe psicologia comprometida com transformação social e classes populares. Obra: <em>Psicologia Social: o homem em movimento</em> (1984);</li>
+<li><strong>Psicologia Comunitária:</strong> práticas nascidas nos territórios e comunidades, não nos consultórios privados;</li>
+<li><strong>Psicologias indígenas e afro-brasileiras:</strong> candomblé, umbanda, práticas xamânicas contêm sistemas de cuidado psicológico que a psicologia ocidental patologizou historicamente.</li></ul>
+<h4>Desafios para uma Psicologia Decolonial</h4><ul>
+<li>Resistência das instituições acadêmicas à reformulação de currículos;</li>
+<li>Tensão entre relativismo cultural e direitos humanos universais;</li>
+<li>Necessidade de formação para atender populações indígenas, quilombolas e negras no SUS/SUAS.</li></ul>
+<div class="note">📌 <strong>Para a prova:</strong> Decolonialismo (a estrutura) + Epistemicídio (o ato concreto de destruição do saber) = dois lados da mesma crítica ao eurocentrismo.</div>`,
+ref:'Quijano, A. (2000). Colonialidade do poder, eurocentrismo e América Latina. In: Lander (org.) A colonialidade do saber. | Fanon, F. (1952/2008). Pele negra, máscaras brancas. EDUFBA. | Santos, B.S. (2009). Uma epistemologia do Sul. Cortez. | Lane, S.T.M. & Codo, W. (1984). Psicologia Social: o homem em movimento. Brasiliense.',
+mm:{center:'Decolonialismo',bs:[
+  {l:'Teóricos fundadores',c:'#f472b6',s:['Quijano: colonialidade poder','Fanon: psicol. colonizada','Mignolo: colonialidade saber','Lugones: colonialidade gênero']},
+  {l:'Conceitos-chave',c:'#fb923c',s:['Colonialidade ≠ colonialismo','Epist. do Sul (Boaventura)','Diferença colonial','Ponto zero epistêmico']},
+  {l:'Psicologia Brasileira',c:'#60a5fa',s:['Silvia Lane: Psic. Social','Psic. Comunitária','Psic. Indígena/Afro','CFP: diversidade']},
+  {l:'Críticas ao mainstream',c:'#f87171',s:['Testes sem adapt. cultural','DSM/CID eurocêntrico','Currículo sem autores BR','Patologização cultural']}]},
+conns:[
+  {tipo:'Dialoga com',cor:'#f87171',nome:'Epistemicídio',desc:'Decolonialismo nomeia a estrutura (colonialidade); epistemicídio nomeia o ato concreto de destruição dos saberes marginalizados.'},
+  {tipo:'Antecede',cor:'#34d399',nome:'Psicologias Brasileiras',desc:'Fundamenta teoricamente as psicologias comunitárias, sociais críticas e indígenas brasileiras dos anos 1970–80 em diante.'},
+  {tipo:'Opõe-se a',cor:'#fb923c',nome:'Universalismo Psicológico',desc:'Critica a imposição de teorias, testes e diagnósticos criados em contextos específicos como se fossem universalmente válidos.'},
+  {tipo:'Dialoga com',cor:'#fb923c',nome:'Historicismo',desc:'Ambos insistem que o conhecimento é situado. O historicismo enfatiza o tempo; o decolonialismo adiciona a dimensão racial e geopolítica.'}],
+fQ:'O que é o Decolonialismo na Psicologia e seus autores centrais?',
+fA:'Perspectiva que questiona o eurocentrismo psicológico. Quijano: colonialidade do poder; Fanon: psicologia colonizada; Mignolo: colonialidade do saber. Brasil: Silvia Lane, Psic. Comunitária, psicologias indígenas e afro-brasileiras.',
+quizzes:[
+  {q:'Adotar uma perspectiva decolonial na psicologia significa:',
+   opts:[{t:'Ignorar as influências culturais não ocidentais',c:false},
+         {t:'Criticar e desmantelar as estruturas de poder e conhecimento eurocêntricas que marginalizaram outras formas de saber',c:true},
+         {t:'Aplicar universalmente modelos psicológicos norte-americanos',c:false},
+         {t:'Enfatizar a superioridade das abordagens psicológicas tradicionais',c:false}],
+   ok:'Correto! Decolonialismo = questionar o eurocentrismo e valorizar epistemologias outras — saberes locais, indígenas, afro-brasileiros.',
+   nok:'Decolonialismo é exatamente o oposto: questionar a hegemonia eurocêntrica e construir saberes plurais e situados.',
+   ref:'Quijano, A. (2000). Colonialidade do poder. | Fanon, F. (1952). Pele negra, máscaras brancas.'},
+  {q:'Uma crítica decolonial à psicologia tradicional focaria principalmente em:',
+   opts:[{t:'A falta de estudos sobre neurociência',c:false},
+         {t:'A universalização de testes criados para populações específicas sem adaptação cultural',c:true},
+         {t:'A ênfase excessiva em métodos quantitativos',c:false},
+         {t:'A necessidade de mais pesquisas sobre desenvolvimento infantil',c:false}],
+   ok:'Correto! Aplicar instrumentos criados para contextos específicos como se fossem universais é um dos principais alvos da crítica decolonial.',
+   nok:'A crítica decolonial foca na imposição de modelos específicos como universais — especialmente em testes e diagnósticos.',
+   ref:'Mignolo, W. (2003). Histórias locais/projetos globais. | Lane, S.T.M. (1984). Psicologia Social.'}]
+},
+
+{id:3,icon:'📚',cor:'#fb923c',title:'Historicismo',sub:'O ser humano como produto de seu tempo e cultura',
+kws:['Dilthey','ciências do espírito','Verstehen','Erklären','Zeitgeist','Weltanschauung','hermenêutica','idiográfico','nomotético','Windelband','Foucault','construção histórica'],
+mnem:'Historicismo: <strong>H</strong>omem = produto do <strong>T</strong>empo. Dilthey: <em>Erklären</em> (explicar, ciências naturais) vs. <em>Verstehen</em> (compreender, ciências humanas). Lembre: <strong>E</strong>xplicar ≠ <strong>C</strong>ompreender.',
+content:`<h4>O que é o Historicismo?</h4><p>Perspectiva filosófica e metodológica que afirma: toda realidade humana — ideias, comportamentos, valores, categorias diagnósticas, identidades — só pode ser plenamente compreendida em seu <strong>contexto histórico específico</strong>. Não existem verdades psicológicas atemporais e universais. O ser humano é sempre um ser <em>situado no tempo</em>.</p>
+<h4>Wilhelm Dilthey e as Ciências do Espírito</h4><p><strong>Wilhelm Dilthey (1833–1911)</strong> é o principal representante. Sua tese: ciências humanas precisam de método próprio, diferente das ciências naturais:</p>
+<ul><li><strong>Ciências naturais → Erklären (explicar):</strong> buscam causas e leis universais. Método: experimento, quantificação, generalização;</li>
+<li><strong>Ciências do espírito → Verstehen (compreender):</strong> buscam sentido, significado, intenção. Método: interpretação hermenêutica, contextualização histórica.</li></ul>
+<p>Conceitos diltheyanos fundamentais:</p><ul>
+<li><em>Weltanschauung</em> (visão de mundo): cada época histórica desenvolve uma forma específica de entender a existência, moldando suas artes, filosofias e psicologias;</li>
+<li><em>Zeitgeist</em> (espírito do tempo): clima intelectual e cultural de uma época que condiciona o pensamento.</li></ul>
+<h4>A Disputa Idiográfico × Nomotético</h4>
+<div class="contrast"><strong>Wilhelm Windelband (1848–1915)</strong> distinguiu:<br><br>📐 <strong>Nomotético:</strong> busca leis gerais aplicáveis a todos os casos (física, psicologia experimental wundtiana). Foco no universal e repetível.<br><br>📖 <strong>Idiográfico:</strong> foca no singular, particular, único (história, biografia, psicologia clínica). Foco no irrepetível.</div>
+<h4>Historicismo na Psicologia</h4><ul>
+<li><strong>Categorias diagnósticas como construções históricas:</strong> neurose, histeria, TDAH — não são entidades naturais fixas. Ex: homossexualidade saiu do DSM em 1973; TDAH praticamente inexistente antes dos anos 1980;</li>
+<li>A identidade e o <em>self</em> moderno ocidental são construções históricas — não universais;</li>
+<li><strong>Michel Foucault:</strong> arqueologia do saber mostra como categorias psicológicas foram historicamente construídas e servem a relações de poder. A loucura, a sexualidade e a criminalidade são "objetos" inventados pela modernidade;</li>
+<li><strong>Lev Vygotsky (1896–1934):</strong> desenvolvimento psicológico mediado por instrumentos culturais e históricos — a consciência é produto da história social.</li></ul>
+<div class="note">📌 <strong>Para a prova:</strong> O historicismo se opõe ao estruturalismo (que busca elementos universais) e ao naturalismo (que trata fenômenos históricos como naturais). O par Erklären/Verstehen é clássico em provas.</div>`,
+ref:'Dilthey, W. (1883/2010). Introdução às ciências do espírito. | Windelband, W. (1894). História e ciência natural (conferência). | Foucault, M. (1969). A arqueologia do saber. Forense. | Vygotsky, L.S. (1934/1984). A formação social da mente. Martins Fontes. | Schultz, D.P. (2019). História da Psicologia Moderna.',
+mm:{center:'Historicismo',bs:[
+  {l:'Dilthey',c:'#fb923c',s:['Erklären vs. Verstehen','Ciências do espírito','Weltanschauung','Hermenêutica histórica']},
+  {l:'Conceitos',c:'#a3e635',s:['Zeitgeist','Idiográfico/Nomotético','Construção histórica','Relativismo contextual']},
+  {l:'Na Psicologia',c:'#60a5fa',s:['Diagnósticos como histór.','Self como construção','Foucault: arqueologia','Vygotsky: hist. social']},
+  {l:'Oposição a',c:'#f87171',s:['Naturalismo','Estruturalismo (Wundt)','Universalismo','Positivismo']}]},
+conns:[
+  {tipo:'Dialoga com',cor:'#f472b6',nome:'Decolonialismo',desc:'Ambos insistem que o conhecimento é situado. O historicismo enfatiza o tempo; o decolonialismo adiciona a dimensão racial e geopolítica da produção do saber.'},
+  {tipo:'Dialoga com',cor:'#34d399',nome:'Fenomenologia',desc:'Husserl travou debate histórico com Dilthey sobre o método das ciências humanas. Ambos rejeitam o objetivismo naturalista aplicado ao humano.'},
+  {tipo:'Opõe-se a',cor:'#60a5fa',nome:'Estruturalismo (Wundt)',desc:'O estruturalismo busca elementos universais da consciência — invariantes ahistóricos. O historicismo argumenta que toda psicologia é historicamente situada.'},
+  {tipo:'Antecede',cor:'#34d399',nome:'Construcionismo Social',desc:'Berger & Luckmann e Gergen herdam a perspectiva historicista — a realidade social é construída histórica e linguisticamente.'}],
+fQ:'O que é o Historicismo e o par conceitual central de Dilthey?',
+fA:'Perspectiva que afirma: o humano só se compreende em seu contexto histórico. Dilthey: Erklären (explicar, ciências naturais) vs. Verstehen (compreender, ciências do espírito). Foucault radicaliza: categorias psicológicas são construções históricas de poder.',
+quizzes:[
+  {q:'O historicismo na psicologia sugere que:',
+   opts:[{t:'O desenvolvimento psicológico é estático e imutável',c:false},
+         {t:'O comportamento humano só pode ser compreendido considerando seu contexto histórico e cultural',c:true},
+         {t:'As teorias psicológicas são universais e atemporais',c:false},
+         {t:'A história pessoal do indivíduo é irrelevante para sua psicologia',c:false}],
+   ok:'Correto! O historicismo afirma que nenhum fenômeno humano pode ser adequadamente compreendido fora de seu contexto histórico e cultural.',
+   nok:'O historicismo insiste exatamente no oposto: história e cultura são condições indispensáveis para compreender o ser humano.',
+   ref:'Dilthey, W. (1883). Introdução às ciências do espírito. | Foucault, M. (1969). A arqueologia do saber.'},
+  {q:'A distinção Erklären/Verstehen de Dilthey refere-se à diferença entre:',
+   opts:[{t:'Psicologia clínica e psicologia experimental',c:false},
+         {t:'Ciências naturais (busca de causas e leis) e ciências do espírito (busca de sentido e significado)',c:true},
+         {t:'Consciente e inconsciente',c:false},
+         {t:'Behaviorismo e psicanálise',c:false}],
+   ok:'Correto! Dilthey defendia que ciências humanas precisam de método próprio — a compreensão interpretativa do sentido vivido, distinta da explicação causal.',
+   nok:'Dilthey distinguia o método das ciências naturais (explicação causal) do método das ciências do espírito (compreensão hermenêutica do sentido).',
+   ref:'Dilthey, W. (1883). Introdução às ciências do espírito, introdução e cap. 1.'}]
+},
+
+{id:4,icon:'👁️',cor:'#34d399',title:'Fenomenologia',sub:'De volta às coisas mesmas — a experiência vivida',
+kws:['Husserl','epoché','intencionalidade','Merleau-Ponty','corpo-sujeito','Heidegger','Dasein','ser-no-mundo','redução fenomenológica','experiência vivida','Brentano','Lebenswelt'],
+mnem:'"<strong>De volta às coisas mesmas!</strong>" (Husserl). Método: <strong>E</strong>poché → suspender teorias → descrever experiência. Trio: <strong>Husserl</strong> (fundação) → <strong>Merleau-Ponty</strong> (corpo) → <strong>Heidegger</strong> (existência).',
+content:`<h4>O que é a Fenomenologia?</h4><p>Movimento filosófico fundado por Husserl que propõe descrever a experiência tal como é vivida, tal como os fenômenos se apresentam à consciência, sem impor teorias explicativas prévias. Lema: <em>"Zu den Sachen selbst"</em> — "De volta às coisas mesmas".</p>
+<h4>Precursor: Franz Brentano (1838–1917)</h4><p>Husserl foi aluno de Brentano, que formulou a <strong>intencionalidade</strong>: toda consciência é sempre consciência <em>de algo</em> — a consciência é estruturalmente relacional. Não existe consciência vazia.</p>
+<h4>Edmund Husserl — Fundador (1859–1938)</h4><ul>
+<li><strong>Epoché</strong> (redução fenomenológica): suspensão do juízo sobre a existência real do mundo — "colocar entre parênteses" as teorias e o senso comum para descrever a experiência pura;</li>
+<li><strong>Intencionalidade:</strong> toda consciência é "consciência de algo". Sujeito e objeto são correlativos;</li>
+<li><strong>Redução eidética:</strong> após a epoché, busca-se a <em>essência</em> (eidos) do fenômeno;</li>
+<li><strong>Lebenswelt</strong> (mundo-da-vida): mundo pré-teórico da experiência cotidiana como fundamento de toda ciência.</li></ul>
+<h4>Maurice Merleau-Ponty — Corpo e Percepção (1908–1961)</h4><ul>
+<li>O corpo não é objeto entre outros objetos — é o <em>sujeito da percepção</em>, o veículo de todo estar-no-mundo;</li>
+<li><strong>Corpo-sujeito:</strong> critica tanto o empirismo (corpo = máquina) quanto o intelectualismo (percepção = operação do intelecto);</li>
+<li>Em <em>Fenomenologia da Percepção</em> (1945): a percepção é sempre corporal e vivida.</li></ul>
+<h4>Martin Heidegger — Existência e Ser-no-Mundo (1889–1976)</h4><ul>
+<li>Em <em>Ser e Tempo</em> (1927): a questão fundamental é ontológica, não epistemológica;</li>
+<li><strong>Dasein</strong> (ser-aí): o ser humano é sempre <em>ser-no-mundo</em> — situado, em relação com outros e com as coisas;</li>
+<li><strong>Ser-para-a-morte:</strong> consciência da finitude como estrutura constitutiva da existência.</li></ul>
+<h4>Na Psicologia e na Psicoterapia</h4><ul>
+<li><strong>Psicologia Humanista-Existencial:</strong> Rogers (escuta sem julgamento), Frankl (logoterapia — busca de sentido), Yalom (psicoterapia existencial);</li>
+<li><strong>Pesquisa fenomenológica (Giorgi, Moustakas):</strong> método qualitativo que busca a estrutura essencial das experiências vividas;</li>
+<li>Clínica: escuta sem pré-julgamento, suspensão de diagnósticos prévios, foco na experiência vivida do cliente.</li></ul>
+<div class="note">📌 <strong>Para a prova:</strong> Fenomenologia vs. Estruturalismo: o estruturalismo <em>decompõe</em> a consciência em elementos; a fenomenologia <em>descreve</em> a experiência como totalidade. Fenomenologia vs. Behaviorismo: behaviorismo estuda o observável externo; fenomenologia estuda a experiência subjetiva.</div>`,
+ref:'Husserl, E. (1900–01). Investigações Lógicas. | Husserl, E. (1913). Ideias I. | Merleau-Ponty, M. (1945/1994). Fenomenologia da Percepção. Martins Fontes. | Heidegger, M. (1927/2012). Ser e Tempo. Vozes. | Giorgi, A. (1985). Phenomenology and Psychological Research. | Brentano, F. (1874). Psicologia do ponto de vista empírico.',
+mm:{center:'Fenomenologia',bs:[
+  {l:'Husserl',c:'#34d399',s:['Epoché: suspender teorias','Intencionalidade','Redução eidética','Lebenswelt']},
+  {l:'Merleau-Ponty',c:'#60a5fa',s:['Corpo-sujeito','Percepção corporal','Crítica ao dualismo','Ser-no-mundo']},
+  {l:'Heidegger',c:'#c084fc',s:['Dasein: ser-aí','Ser-no-mundo','Ser-para-a-morte','Temporalidade']},
+  {l:'Na Psicologia',c:'#fb923c',s:['Rogers: escuta empática','Frankl: logoterapia','Pesquisa qualitativa','Clínica existencial']}]},
+conns:[
+  {tipo:'Antecede',cor:'#34d399',nome:'Psicologia Humanista',desc:'Rogers e Maslow herdam diretamente: escuta sem julgamento, foco na experiência subjetiva, recusa de diagnósticos redutivos.'},
+  {tipo:'Dialoga com',cor:'#fb923c',nome:'Historicismo',desc:'Husserl e Dilthey tiveram debate histórico sobre método das ciências humanas. Ambos rejeitam o objetivismo naturalista aplicado ao humano.'},
+  {tipo:'Opõe-se a',cor:'#60a5fa',nome:'Estruturalismo (Wundt)',desc:'Estruturalismo decompõe a consciência em elementos via introspecção; fenomenologia descreve a experiência como totalidade vivida.'},
+  {tipo:'Opõe-se a',cor:'#f87171',nome:'Behaviorismo',desc:'Behaviorismo exclui a experiência subjetiva do campo científico; fenomenologia a coloca exatamente no centro.'}],
+fQ:'O que é a Fenomenologia e seus três autores centrais?',
+fA:'Descreve a experiência vivida como aparece à consciência. Epoché = suspender teorias. Husserl (fundador), Merleau-Ponty (corpo-sujeito), Heidegger (Dasein, ser-no-mundo). Na psicologia: humanismo (Rogers), logoterapia (Frankl), clínica existencial.',
+quizzes:[
+  {q:'A Fenomenologia de Husserl e Merleau-Ponty enfatiza:',
+   opts:[{t:'A análise objetiva do comportamento observável',c:false},
+         {t:'A descrição da experiência vivida tal como se apresenta à consciência',c:true},
+         {t:'A importância do inconsciente e mecanismos de repressão',c:false},
+         {t:'A busca de leis universais e atemporais do comportamento',c:false}],
+   ok:'Correto! A fenomenologia foca na descrição rigorosa da experiência vivida — o fenômeno como aparece à consciência, sem reduções teóricas prévias.',
+   nok:'A fenomenologia não analisa comportamentos objetivos nem mecanismos inconscientes — ela descreve a experiência vivida em primeira pessoa.',
+   ref:'Husserl, E. (1913). Ideias I. | Merleau-Ponty, M. (1945). Fenomenologia da Percepção.'},
+  {q:'A "epoché" na fenomenologia de Husserl refere-se a:',
+   opts:[{t:'A análise dos estímulos que precedem uma resposta',c:false},
+         {t:'A suspensão do juízo sobre a existência real do mundo para descrever a experiência pura',c:true},
+         {t:'O estudo dos elementos básicos da consciência por introspecção',c:false},
+         {t:'A ênfase no inconsciente coletivo jungiano',c:false}],
+   ok:'Correto! Epoché = "colocar entre parênteses" teorias e pressupostos para chegar à experiência tal como ela se apresenta.',
+   nok:'Epoché é a suspensão do juízo natural — não ceticismo nem negação do mundo — um método para descrever a experiência pura.',
+   ref:'Husserl, E. (1900–01). Investigações Lógicas. | Schultz, D.P. (2019). História da Psicologia Moderna.'}]
+},
+
+{id:5,icon:'💀',cor:'#60a5fa',title:'Epistemicídio e Psicologias Brasileiras',sub:'A morte sistemática dos saberes marginalizados',
+kws:['epistemicídio','Boaventura de Sousa Santos','Sueli Carneiro','ecologia dos saberes','saberes indígenas','racismo epistêmico','patologização cultural','DSM','sociologia das ausências','epistemologias do Sul'],
+mnem:'Epistemicídio = <strong>Episteme</strong> (conhecimento) + <strong>Cídio</strong> (matar). Lembre: <strong>Carneiro</strong> (cunhou o conceito no BR, 2005) + <strong>Boaventura</strong> (ecologia dos saberes como antídoto, 2009).',
+content:`<h4>O que é Epistemicídio?</h4><p>Conceito desenvolvido pela filósofa brasileira <strong>Aparecida Sueli Carneiro</strong> (tese doutoral, FEUSP, 2005) e aprofundado por <strong>Boaventura de Sousa Santos</strong>. Refere-se à destruição sistemática, deliberada ou estrutural, de formas de conhecimento, sistemas de saber e visões de mundo produzidas por grupos historicamente oprimidos — especialmente pelo colonialismo europeu.</p>
+<p>Não é apenas eliminação física (genocídio) — é a eliminação de formas de conhecer, de nomear o mundo, de curar e fazer sentido da existência. O apagamento simbólico que acompanha ou continua o apagamento físico.</p>
+<h4>Aparecida Sueli Carneiro — Tese central</h4><p>O epistemicídio opera como:</p><ul>
+<li>Exclusão de autores negros, indígenas e latinoamericanos dos currículos acadêmicos;</li>
+<li>Invalidação do conhecimento produzido por pessoas negras como "menos rigoroso" ou "parcial";</li>
+<li>Invisibilização de contribuições históricas de povos africanos e afrodiaspóricos.</li></ul>
+<h4>Boaventura de Sousa Santos</h4><ul>
+<li><strong>Sociologia das ausências:</strong> produção ativa de não-existência — tornar invisíveis formas de saber que não se encaixam no modelo científico ocidental;</li>
+<li><strong>Ecologia dos saberes:</strong> proposta alternativa — múltiplas e válidas formas de conhecer. Diálogo entre saberes (científicos, populares, indígenas, afro-religiosos) é mais fecundo que imposição de um único modelo;</li>
+<li><strong>Epistemologias do Sul:</strong> saberes produzidos a partir de experiências de sofrimento, resistência e emancipação no Sul global.</li></ul>
+<h4>Epistemicídio na Psicologia Brasileira</h4><ul>
+<li><strong>Patologização de práticas afro-brasileiras:</strong> candomblé e umbanda foram classific. como psicose ou superstição por psiquiatras e psicólogos até décadas recentes;</li>
+<li><strong>Aplicação acrítica do DSM:</strong> critérios criados em populações norte-americanas brancas de classe média aplicados universalmente no Brasil;</li>
+<li><strong>Invisibilização do saber indígena de cura:</strong> práticas xamânicas, plantas medicinais e rituais coletivos tratados como folclore, não como sistemas legítimos;</li>
+<li><strong>Currículos eurocêntricos:</strong> ementas de psicologia dominadas por autores europeus e norte-americanos;</li>
+<li><strong>Acesso desigual:</strong> modelo privado de consultório culturalmente codificado como branco e de classe média — inacessível para a maioria da população negra e indígena.</li></ul>
+<h4>Psicologias Brasileiras como Resistência</h4><ul>
+<li>Psicologia Social Crítica (Lane, Bock), Psicologia Comunitária, Rede de Pesquisadores Negros em Psicologia (RPN), crescente reconhecimento de psicologias indígenas.</li></ul>
+<div class="note">📌 <strong>Para a prova:</strong> Distinção essencial: <strong>Epistemicídio</strong> = processo de destruição dos saberes. <strong>Ecologia dos saberes</strong> = proposta alternativa (pluralidade epistêmica). Conecte sempre com Decolonialismo.</div>`,
+ref:'Carneiro, A.S. (2005). A construção do outro como não-ser como fundamento do ser. Tese doutoral, FEUSP. | Santos, B.S. (2009). Uma epistemologia do Sul. Cortez/CES. | Santos, B.S. & Meneses, M.P. (orgs.) (2010). Epistemologias do Sul. | CFP (2017). Relações Raciais: Referências Técnicas para Atuação de Psicólogos.',
+mm:{center:'Epistemicídio',bs:[
+  {l:'Teóricos centrais',c:'#60a5fa',s:['Sueli Carneiro (tese 2005)','Boaventura de S. Santos','Frantz Fanon','Quijano (colonialidade)']},
+  {l:'Mecanismos',c:'#f472b6',s:['Invalidação dos saberes','Exclusão curricular','Patologização cultural','Sociologia das ausências']},
+  {l:'No Brasil / Psicologia',c:'#fb923c',s:['DSM acrítico','Umbanda/Candomblé patolog.','Saber indígena invisível','Currículo eurocêntrico']},
+  {l:'Resistência',c:'#a3e635',s:['Ecologia dos saberes','Psic. Comunitária','RPN (pesq. negros)','Epistemologias do Sul']}]},
+conns:[
+  {tipo:'Dialoga com',cor:'#f472b6',nome:'Decolonialismo',desc:'Epistemicídio é o ato; decolonialismo é a resposta. A colonialidade do saber (Mignolo) opera produzindo epistemicídios.'},
+  {tipo:'Dialoga com',cor:'#fb923c',nome:'Historicismo',desc:'O historicismo critica o universalismo ahistórico; o epistemicídio critica o universalismo como arma colonial. Ambos insistem na situacionalidade do conhecimento.'},
+  {tipo:'Opõe-se a',cor:'#c084fc',nome:'Positivismo / Cientificismo',desc:'O positivismo estabelece a ciência ocidental como único critério de validade — principal mecanismo institucional do epistemicídio acadêmico.'},
+  {tipo:'Antecede',cor:'#34d399',nome:'Psicologias do Sul',desc:'A denúncia do epistemicídio impulsiona psicologias latinoamericanas, africanas e indígenas como alternativas legítimas ao mainstream.'}],
+fQ:'O que é epistemicídio e como se manifesta na Psicologia brasileira?',
+fA:'Destruição sistemática de saberes marginalizados (Carneiro, 2005; Boaventura, 2009). Na psicologia: patologização de práticas afro-religiosas, DSM acrítico, invisibilização de saberes indígenas, currículos eurocêntricos. Antídoto: ecologia dos saberes.',
+quizzes:[
+  {q:'O conceito de epistemicídio refere-se a:',
+   opts:[{t:'O estudo científico das formas de conhecimento',c:false},
+         {t:'A destruição ou invalidação sistemática de saberes de grupos historicamente marginalizados',c:true},
+         {t:'A expansão progressiva do conhecimento científico ocidental',c:false},
+         {t:'A organização do conhecimento em sistemas lógicos formais',c:false}],
+   ok:'Correto! Epistemicídio = o assassinato simbólico dos sistemas de conhecimento de grupos historicamente oprimidos (Carneiro, 2005).',
+   nok:'Epistemicídio não é sobre ciência em si — é sobre a destruição de formas alternativas de conhecer o mundo.',
+   ref:'Carneiro, A.S. (2005). A construção do outro como não-ser. FEUSP. | Santos, B.S. (2009). Uma epistemologia do Sul.'},
+  {q:'A "ecologia dos saberes" de Boaventura é uma resposta ao epistemicídio porque:',
+   opts:[{t:'Defende a supremacia do conhecimento científico sobre outros saberes',c:false},
+         {t:'Propõe diálogo horizontal entre múltiplas formas de conhecimento, sem hierarquia epistêmica',c:true},
+         {t:'Argumenta que apenas saberes indígenas são válidos',c:false},
+         {t:'Substitui completamente o método científico por saberes populares',c:false}],
+   ok:'Correto! A ecologia dos saberes propõe diálogo horizontal entre diferentes formas de conhecer — mais justo e fecundo que a imposição de um único modelo.',
+   nok:'A ecologia dos saberes não nega a ciência — propõe diálogo horizontal entre múltiplas formas de conhecimento, sem hierarquia.',
+   ref:'Santos, B.S. (2009). Uma epistemologia do Sul. | Santos, B.S. & Meneses, M.P. (2010). Epistemologias do Sul.'}]
+},
+
+{id:6,icon:'🔬',cor:'#f87171',title:'Estruturalismo',sub:'Decompondo a consciência em seus elementos fundamentais',
+kws:['Wundt','Titchener','Leipzig 1879','introspecção experimental','sensações','imagens','sentimentos','voluntarismo','atomismo','Külpe','pensamento sem imagem','Gestalt','laboratório'],
+mnem:'<strong>1879 Leipzig</strong> — Wundt funda o primeiro laboratório. <strong>W.T. = Wundt + Titchener</strong> = elementos da consciência (sensações + imagens + afetos) via <strong>I</strong>ntrospecção. Caiu por: <strong>G.F.B.</strong> = <strong>G</strong>estalt + <strong>F</strong>uncionalismo + <strong>B</strong>ehaviorismo.',
+content:`<h4>O que é o Estruturalismo?</h4><p>Primeira escola sistemática e autoconsciente da Psicologia científica. Projeto: aplicar o método analítico das ciências naturais à mente — assim como a química identifica os átomos de uma substância, a psicologia deveria identificar os <strong>elementos irredutíveis da consciência</strong>. Método central: <strong>introspecção experimental</strong>.</p>
+<h4>Wilhelm Wundt — O Fundador (1832–1920)</h4><ul>
+<li>Em <strong>1879</strong>, funda o primeiro laboratório de psicologia experimental em Leipzig — marco histórico da psicologia como ciência independente;</li>
+<li>Wundt preferia <strong>voluntarismo</strong> ao termo "estruturalismo" — enfatizando a mente como processo ativo de síntese e vontade;</li>
+<li>Elementos da experiência imediata: <strong>sensações</strong> (qualidade e intensidade) e <strong>sentimentos</strong> (valência, excitação, tensão);</li>
+<li>Distinguia psicologia experimental (processos simples) da <em>Völkerpsychologie</em> (psicologia dos povos — linguagem, mitos, costumes).</li></ul>
+<h4>Edward Titchener — Estruturalismo nos EUA (1867–1927)</h4><ul>
+<li>Aluno de Wundt, fundou laboratório em Cornell University (1892) e cunhou o termo "estruturalismo";</li>
+<li>Três elementos mentais: <strong>sensações</strong> (percepção), <strong>imagens</strong> (ideias) e <strong>afetos</strong> (emoções);</li>
+<li>Introspecção mais rígida que Wundt: observadores passavam anos aprendendo a evitar "erros de estímulo" (descrever o objeto em vez de descrever a experiência).</li></ul>
+<h4>Críticas e Declínio</h4><ul>
+<li><strong>Introspecção não replicável:</strong> resultados variavam entre laboratórios — dado não verificável por terceiros viola o critério de ciência;</li>
+<li><strong>Pensamento sem imagem (Escola de Würzburg, Külpe, ~1901):</strong> há pensamentos (intenções, juízos) que não se reduzem a imagens ou sensações — refuta diretamente o atomismo;</li>
+<li><strong>Gestalt (Wertheimer, 1912):</strong> o todo é <em>diferente</em> da soma das partes — percepção não se reconstrói de sensações elementares;</li>
+<li><strong>Funcionalismo (James, Dewey):</strong> mais importante que os elementos é a <em>função</em> da mente na adaptação;</li>
+<li><strong>Behaviorismo (Watson, 1913):</strong> se não é observável, não é científico — introspecção é subjetiva e não verificável.</li></ul>
+<div class="note">📌 <strong>Para a prova:</strong> Wundt fundou o laboratório em <strong>1879</strong>. Estruturalismo (o quê — quais elementos) × Funcionalismo (para quê — qual a função). Três elementos de Titchener: sensações + imagens + afetos.</div>`,
+ref:'Wundt, W. (1874). Grundzüge der Physiologischen Psychologie. | Titchener, E. (1898). The Postulates of a Structural Psychology. | Schultz, D.P. & Schultz, S.E. (2019). História da Psicologia Moderna, caps. 3–4. Cengage. | Heidbreder, E. (1933). Seven Psychologies.',
+mm:{center:'Estruturalismo',bs:[
+  {l:'Fundadores',c:'#f87171',s:['Wundt → Leipzig 1879','Titchener → Cornell 1892','Brentano (influência)','Fechner (psicofísica)']},
+  {l:'Método',c:'#fb923c',s:['Introspecção experimental','Observadores treinados','Laboratório controlado','Análise elementar']},
+  {l:'Elementos da consciência',c:'#a3e635',s:['Sensações (percepção)','Imagens (ideias)','Afetos (emoções)','Associações']},
+  {l:'Críticas / Declínio',c:'#c084fc',s:['Introspect. irreplicável','Gestalt: todo ≠ soma','Funcionalismo: função','Behaviorismo: observável']}]},
+conns:[
+  {tipo:'Antecede',cor:'#34d399',nome:'Funcionalismo',desc:'O funcionalismo surge como reação: em vez de "quais são os elementos?", pergunta "para que serve a mente?" (William James, John Dewey, influência darwiniana).'},
+  {tipo:'Antecede',cor:'#fb923c',nome:'Gestalt',desc:'A Gestalt nasce em oposição direta ao atomismo estruturalista: o todo (percepção) não se reconstrói de elementos — é totalidade com propriedades emergentes.'},
+  {tipo:'Opõe-se a',cor:'#60a5fa',nome:'Fenomenologia',desc:'Estruturalismo decompõe a consciência em elementos; fenomenologia descreve a experiência como totalidade vivida, recusando a decomposição atomista.'},
+  {tipo:'Dialoga com',cor:'#c084fc',nome:'Positivismo (Comte)',desc:'O projeto de tornar a psicologia ciência natural pela observação rigorosa é uma aplicação do ideal positivista ao estudo da mente.'}],
+fQ:'O que é o Estruturalismo e por que entrou em declínio?',
+fA:'Primeira escola científica da psicologia (Wundt, Leipzig, 1879). Objetivo: decompor a consciência em elementos (sensações, imagens, afetos) via introspecção. Declínio: método irreplicável, "pensamento sem imagem" (Külpe), Gestalt, Funcionalismo e Behaviorismo.',
+quizzes:[
+  {q:'O principal objetivo do Estruturalismo de Wundt e Titchener era:',
+   opts:[{t:'Estudar a função adaptativa do comportamento no ambiente',c:false},
+         {t:'Analisar a consciência em seus elementos básicos (sensações, imagens, afetos) via introspecção experimental',c:true},
+         {t:'Compreender os mecanismos do inconsciente e sua influência',c:false},
+         {t:'Investigar apenas o comportamento observável e mensurável',c:false}],
+   ok:'Correto! O estruturalismo queria fazer com a psicologia o que a química faz com as substâncias: decompor a consciência em seus elementos mínimos.',
+   nok:'O estruturalismo não estudou função (funcionalismo), inconsciente (psicanálise) nem comportamento observável (behaviorismo) — analisou os elementos da consciência.',
+   ref:'Wundt, W. (1874). Princípios de Psicologia Fisiológica. | Schultz, D.P. (2019). cap. 4.'},
+  {q:'O método central do Estruturalismo de Wundt e Titchener era:',
+   opts:[{t:'A análise estatística de comportamentos em grupos',c:false},
+         {t:'A observação clínica livre do paciente',c:false},
+         {t:'A introspecção experimental — observação interna treinada e sistematizada em laboratório',c:true},
+         {t:'A interpretação de sonhos e associações livres',c:false}],
+   ok:'Correto! A introspecção experimental — observação interna rigorosamente treinada e controlada — era o método distintivo do estruturalismo.',
+   nok:'O método era a introspecção experimental — observação interna conduzida em condições laboratoriais, por observadores anos treinados.',
+   ref:'Titchener, E. (1898). The Postulates of a Structural Psychology. | Schultz, D.P. (2019).'}]
+},
+
+{id:7,icon:'🧬',cor:'#a3e635',title:'Matriz Organicista',sub:'O ser humano como organismo integrado e auto-organizante',
+kws:['organicismo','todo integrado','Kant','auto-organização','Piaget','teleologia','emergência','holismo','Gestalt','teoria sistêmica','assimilação','acomodação','equilibração','Bertalanffy'],
+mnem:'Organicismo: <strong>TODO > soma das partes</strong>. <strong>AUTO-ORGANIZAÇÃO</strong>. Piaget = caso-modelo: <strong>A</strong>ssimilação + <strong>A</strong>comodação + <strong>E</strong>quilbração (AAE).',
+content:`<h4>O que é a Matriz Organicista?</h4><p>Visão de mundo que concebe os seres vivos — e o ser humano — como <strong>organismos integrados</strong>: totalidades cujas partes são constitutivamente interdependentes, que se auto-organizam e só fazem sentido em relação ao todo. Opõe-se fundamentalmente ao mecanicismo.</p>
+<h4>Fundamentos Filosóficos: Kant e a Teleologia Orgânica</h4><p>Base filosófica em <strong>Immanuel Kant</strong> (<em>Crítica do Juízo</em>, 1790):</p><ul>
+<li>Kant distingue <strong>causalidade mecânica</strong> (A causa B linearmente) da <strong>causalidade orgânica</strong>: no organismo, cada parte é tanto meio quanto fim;</li>
+<li><strong>Teleologia imanente:</strong> o organismo parece orientado para um fim (forma adulta, reprodução, cura) que é imanente à própria organização;</li>
+<li><strong>Emergência:</strong> propriedades do todo que não existem nas partes isoladas — consciência não se deduz de neurônios isolados.</li></ul>
+<h4>Organicismo vs. Mecanicismo</h4>
+<div class="contrast">⚙️ <strong>Mecanicismo (Descartes, Newton, Watson):</strong> o todo é soma das partes; partes estudadas isoladamente; causa-efeito linear e previsível; organismo = máquina complexa.<br><br>🧬 <strong>Organicismo (Kant, Piaget, Gestalt):</strong> o todo é mais que a soma; partes são interdependentes; organismo se auto-organiza; desenvolvimento é teleológico e emergente.</div>
+<h4>Jean Piaget — O Caso Exemplar (1896–1980)</h4><p>Mais influente psicólogo a operar explicitamente na matriz organicista:</p><ul>
+<li><strong>Assimilação:</strong> o organismo incorpora o novo objeto/experiência aos esquemas existentes — como ser vivo digere alimento transformando-o em sua própria substância;</li>
+<li><strong>Acomodação:</strong> o organismo modifica seus esquemas para acomodar o novo — como ser vivo adapta suas estruturas ao ambiente;</li>
+<li><strong>Equilibração:</strong> processo dinâmico que busca equilíbrio entre assimilação e acomodação — motor do desenvolvimento cognitivo;</li>
+<li>Estágios do desenvolvimento (sensório-motor, pré-operacional, operacional concreto, formal) — cada um integra e supera o anterior em espiral orgânica.</li></ul>
+<h4>Outras Expressões na Psicologia</h4><ul>
+<li><strong>Gestalt (Wertheimer, Köhler, Koffka):</strong> "o todo é diferente da soma das partes" — percepção se organiza em totalidades (pregnância, figura-fundo, proximidade);</li>
+<li><strong>Teoria Sistêmica (Bertalanffy, 1968):</strong> generaliza o organicismo para qualquer sistema — biológico, psicológico, social. Fundamento da terapia familiar sistêmica;</li>
+<li><strong>Neurociência contemporânea:</strong> perspectiva das redes neurais e conectividade funcional supera o modularismo e reflete o pensamento organicista.</li></ul>
+<div class="note">📌 <strong>Para a prova:</strong> Piaget é o exemplo mais pedido de psicólogo na matriz organicista. A tríade AAE (Assimilação + Acomodação + Equilibração) = auto-organização orgânica da inteligência. Também: Gestalt = organicismo perceptivo.</div>`,
+ref:'Kant, I. (1790/2001). Crítica do Juízo, §§ 64–66. | Piaget, J. (1970/1983). A epistemologia genética. | Wertheimer, M. (1912). Estudos exp. sobre percepção do movimento. | Bertalanffy, L.v. (1968). General System Theory. | Schultz, D.P. (2019). História da Psicologia Moderna.',
+mm:{center:'Matriz Organicista',bs:[
+  {l:'Fundamentos',c:'#a3e635',s:['Kant: teleologia orgânica','Aristóteles: holismo','Emergência','Auto-organização']},
+  {l:'vs. Mecanicismo',c:'#f87171',s:['Todo > soma das partes','Partes interdependentes','Causa não-linear','Desenvolvimento teleológico']},
+  {l:'Piaget',c:'#60a5fa',s:['Assimilação','Acomodação','Equilibração','Estágios em espiral']},
+  {l:'Outras expressões',c:'#fb923c',s:['Gestalt: campo perceptivo','Bertalanffy: Teoria Sistêmica','Terapia Familiar','Neurociência de redes']}]},
+conns:[
+  {tipo:'Dialoga com',cor:'#c084fc',nome:'Vitalismo',desc:'Ambos rejeitam o reducionismo mecanicista. Vitalismo postula princípio vital irredutível; organicismo postula que a organização integrada é irredutível a partes.'},
+  {tipo:'Antecede',cor:'#fb923c',nome:'Gestalt',desc:'A Gestalt é a aplicação mais rigorosa do organicismo à percepção: "o todo é diferente da soma das partes" como lei fundamental.'},
+  {tipo:'Antecede',cor:'#34d399',nome:'Teoria Sistêmica',desc:'Bertalanffy generaliza o organicismo para qualquer sistema (biológico, social, psicológico). Fundamento da terapia familiar sistêmica.'},
+  {tipo:'Opõe-se a',cor:'#f87171',nome:'Mecanicismo / Behaviorismo',desc:'O behaviorismo trata o organismo como máquina de responder a estímulos — exatamente o que o organicismo recusa. O organismo não é passivo: auto-organiza-se.'}],
+fQ:'O que é a Matriz Organicista e seu exemplo mais importante?',
+fA:'Visão de que o ser humano é organismo integrado (todo > soma das partes). Kant: teleologia orgânica. Piaget (caso exemplar): assimilação + acomodação + equilibração = auto-organização da inteligência. Também: Gestalt e Teoria Sistêmica (Bertalanffy).',
+quizzes:[
+  {q:'Qual afirmação melhor descreve a visão organicista em Psicologia?',
+   opts:[{t:'O indivíduo é uma máquina cujas partes podem ser estudadas isoladamente',c:false},
+         {t:'O ser humano é um todo integrado, cujas partes funcionam de maneira interdependente e auto-organizante',c:true},
+         {t:'O comportamento é determinado exclusivamente por fatores ambientais de aprendizagem',c:false},
+         {t:'A consciência é um epifenômeno da atividade cerebral mensurável',c:false}],
+   ok:'Correto! O organicismo vê o ser humano como totalidade integrada e auto-organizante — partes interdependentes que só fazem sentido em relação ao todo.',
+   nok:'O organicismo é o oposto do mecanicismo: recusa a ideia de que partes podem ser estudadas isoladamente e recompostas no todo.',
+   ref:'Kant, I. (1790). Crítica do Juízo. | Piaget, J. (1970). A epistemologia genética.'},
+  {q:'Como a teoria de Piaget se enquadra na matriz organicista?',
+   opts:[{t:'Porque Piaget estudava reflexos condicionados do bebê',c:false},
+         {t:'Porque assimilação, acomodação e equilibração descrevem um organismo que se auto-organiza ativamente',c:true},
+         {t:'Porque Piaget explicava o desenvolvimento como resposta passiva a reforços externos',c:false},
+         {t:'Porque Piaget usava a introspecção experimental como método principal',c:false}],
+   ok:'Correto! Piaget descreve a inteligência como organismo que se auto-organiza: assimilação e acomodação são processos orgânicos de adaptação, não respostas passivas.',
+   nok:'Piaget é organicista porque sua teoria mostra um sujeito ativo que se auto-organiza — não um receptor passivo de estímulos ou um introspector.',
+   ref:'Piaget, J. (1970). A epistemologia genética. | Schultz, D.P. (2019). cap. 15.'}]
+}
+];
+
+const ALL_QUIZ=[];
+T.forEach(t=>t.quizzes.forEach((q,i)=>ALL_QUIZ.push({...q,tid:t.id,ttitle:t.title,tcor:t.cor,ticon:t.icon})));
+
+const TL=[
+  {ano:'1637',tema:'Contexto',cor:'#94a3b8',title:'Descartes: Discurso do Método',body:'Descartes publica o <strong>Discurso do Método</strong> e as <em>Meditações</em>. Propõe o dualismo mente-corpo (<em>res cogitans</em> vs. <em>res extensa</em>) e o mecanicismo — o corpo como máquina. Impacto decisivo: toda psicologia subsequente reage ao cartesianismo, seja adotando-o (estruturalismo, behaviorismo) seja criticando-o (vitalismo, organicismo, fenomenologia).'},
+  {ano:'1689',tema:'Contexto',cor:'#94a3b8',title:'Locke: Ensaio sobre o Entendimento Humano',body:'John Locke propõe o <strong>empirismo</strong> — a mente como <em>tabula rasa</em> preenchida pela experiência. Fundamento do associacionismo britânico, que influenciará diretamente Wundt e o estruturalismo. A ideia de que a mente é produto da experiência antecipa o historicismo.'},
+  {ano:'1708',tema:'Vitalismo',cor:'#c084fc',title:'Stahl: Theoria Medica Vera',body:'Georg Ernst Stahl formula a <strong>anima</strong> como princípio imaterial que governa os processos vitais. Inaugura o vitalismo médico moderno em oposição ao mecanicismo cartesiano. Antecipa perspectivas psicossomáticas — doenças como perturbações da anima.'},
+  {ano:'1790',tema:'Organicismo',cor:'#a3e635',title:'Kant: Crítica do Juízo',body:'Kant fundamenta filosoficamente a <strong>causalidade orgânica</strong>, distinta da mecânica. O organismo é um ser cujas partes existem em função umas das outras e do todo. Base do organicismo biológico e psicológico posterior. O conceito de teleologia imanente será retomado por Piaget, pela Gestalt e pela teoria sistêmica.'},
+  {ano:'1838',tema:'Contexto',cor:'#94a3b8',title:'Darwin inicia pesquisas sobre seleção natural',body:'Charles Darwin desenvolve sua teoria da <strong>evolução por seleção natural</strong> (publicada em 1859). Impacto revolucionário: se a mente evolui, ela deve ter funções adaptativas. Fundamento direto do funcionalismo (James, Dewey) e da psicologia comparada — reação ao estruturalismo ahistórico e anti-evolutivo.'},
+  {ano:'1874',tema:'Fenomenologia',cor:'#34d399',title:'Brentano: Psicologia do Ponto de Vista Empírico',body:'Franz Brentano formula a <strong>intencionalidade da consciência</strong> — toda consciência é sempre consciência <em>de algo</em>. Distingue fenômenos físicos e psíquicos. Este conceito fundará a fenomenologia husserliana e influenciará toda a psicologia do século XX que valoriza a subjetividade.'},
+  {ano:'1874',tema:'Estruturalismo',cor:'#f87171',title:'Wundt: Princípios de Psicologia Fisiológica',body:'Wilhelm Wundt publica o primeiro tratado sistemático de psicologia científica. Propõe a psicologia como ciência experimental autônoma, com método próprio (introspecção experimental). Prepara a fundação do laboratório que marcará o nascimento oficial da disciplina.'},
+  {ano:'1879',tema:'Estruturalismo',cor:'#f87171',title:'Primeiro Laboratório de Psicologia — Leipzig',body:'Wundt funda o primeiro laboratório de psicologia experimental em Leipzig. <strong>Marco histórico fundador:</strong> nascimento oficial da Psicologia como ciência independente, separada da filosofia e da fisiologia. Estudantes de todo o mundo (incluindo Titchener e Cattell) formam-se em Leipzig.'},
+  {ano:'1883',tema:'Historicismo',cor:'#fb923c',title:'Dilthey: Introdução às Ciências do Espírito',body:'Dilthey funda metodologicamente as ciências humanas. Propõe o par <strong>Erklären/Verstehen</strong> e defende que ciências do espírito exigem compreensão histórica, não explicação causal. Critica diretamente a pretensão da psicologia wundtiana de tornar-se ciência natural.'},
+  {ano:'1892',tema:'Estruturalismo',cor:'#f87171',title:'Titchener funda laboratório em Cornell',body:'Edward Titchener, aluno inglês de Wundt, importa o estruturalismo para os EUA. Cunha o termo "estruturalismo" e desenvolve versão mais rígida. Trava intenso debate com os funcionalistas americanos — William James havia publicado os <em>Princípios de Psicologia</em> em 1890.'},
+  {ano:'1894',tema:'Historicismo',cor:'#fb923c',title:'Windelband: Idiográfico vs. Nomotético',body:'Wilhelm Windelband, na conferência "História e Ciência Natural", distingue ciências que buscam <strong>leis universais</strong> (nomotéticas) das que buscam <strong>o singular e irrepetível</strong> (idiográficas). Influência duradoura na metodologia das ciências humanas e na crítica ao universalismo psicológico.'},
+  {ano:'1900',tema:'Fenomenologia',cor:'#34d399',title:'Husserl: Investigações Lógicas',body:'Edmund Husserl funda a <strong>fenomenologia como método filosófico rigoroso</strong>. Propõe a epoché e a análise intencional da consciência. Reage ao psicologismo (redução da lógica à psicologia) e ao naturalismo. Inaugura um projeto que influenciará toda psicologia humanista, existencial e clínica do século XX.'},
+  {ano:'1901',tema:'Estruturalismo',cor:'#f87171',title:'Escola de Würzburg: Pensamento sem Imagem',body:'Oswald Külpe e colaboradores demonstram experimentalmente que existem <strong>pensamentos sem imagem mental</strong> — pensamentos sobre relações, intenções e juízos que não se reduzem a sensações ou imagens. Refuta diretamente o atomismo introspectivo de Titchener. Inicia a crise do estruturalismo.'},
+  {ano:'1907',tema:'Vitalismo',cor:'#c084fc',title:'Bergson: A Evolução Criadora',body:'Henri Bergson propõe o <strong>élan vital</strong> — impulso criativo e irredutível que explica a evolução da vida. Critica o intelectualismo analítico que fragmenta o que é essencialmente duração e movimento. Nobel de Literatura em 1927. Influência direta sobre Rogers, a Gestalt e o pensamento humanista.'},
+  {ano:'1912',tema:'Organicismo',cor:'#a3e635',title:'Wertheimer funda a Gestalt',body:'Max Wertheimer, com Köhler e Koffka, funda a Psicologia da Gestalt em Frankfurt. O experimento do <strong>phi-fenômeno</strong> (percepção de movimento) demonstra que a percepção não se reconstrói de imagens estáticas — o todo é diferente da soma das partes. Crítica direta ao atomismo estruturalista e aplicação do organicismo à percepção.'},
+  {ano:'1913',tema:'Contexto',cor:'#94a3b8',title:'Watson: Manifesto Behaviorista',body:'John Watson publica "Psychology as the Behaviorist Views It" — o <strong>manifesto behaviorista</strong>. A psicologia deve estudar apenas comportamento observável e mensurável; rejeita introspecção, consciência e mente. Representa a ruptura com o estruturalismo e a fenomenologia. Paradoxalmente, herda do mecanicismo cartesiano e do empirismo lockeano.'},
+  {ano:'1927',tema:'Fenomenologia',cor:'#34d399',title:'Heidegger: Ser e Tempo',body:'Heidegger radicaliza a fenomenologia: a questão não é epistemológica (como conhecemos) mas ontológica (como é o ser do Dasein). O <strong>ser-no-mundo</strong>, o ser-com-outros e o ser-para-a-morte como estruturas existenciais. Funda a fenomenologia existencial que influenciará a psicoterapia existencial (Yalom, Binswanger, Boss).'},
+  {ano:'1936',tema:'Organicismo',cor:'#a3e635',title:'Piaget: O Nascimento da Inteligência na Criança',body:'Jean Piaget inicia a publicação sistemática de sua teoria do desenvolvimento cognitivo. Descreve um organismo que se <strong>auto-organiza intelectualmente</strong> via assimilação, acomodação e equilibração. A inteligência é biológica e orgânica antes de ser lógica. Modelo organicista mais influente da psicologia do desenvolvimento.'},
+  {ano:'1945',tema:'Fenomenologia',cor:'#34d399',title:'Merleau-Ponty: Fenomenologia da Percepção',body:'Maurice Merleau-Ponty incorpora o <strong>corpo à fenomenologia</strong>: o corpo-sujeito como ponto zero de toda experiência. Crítica ao dualismo mente-corpo cartesiano. Influência decisiva na psicologia clínica, na dança-terapia, nas artes e nas neurociências contemporâneas.'},
+  {ano:'1952',tema:'Decolonialismo',cor:'#f472b6',title:'Fanon: Pele negra, máscaras brancas',body:'Frantz Fanon analisa o <strong>impacto psicológico do colonialismo</strong> sobre o colonizado: internalização da inferioridade racial, alienação identitária, violência colonial como fundamento da subjetividade colonizada. Inauguração de uma psicologia anti-colonial que antecipa todo o projeto decolonial latinoamericano.'},
+  {ano:'1961',tema:'Contexto',cor:'#94a3b8',title:'Lei 4.119: Fundação da Profissão de Psicólogo no Brasil',body:'A Lei 4.119 regulamenta a profissão de psicólogo no Brasil e cria o Conselho Federal de Psicologia (CFP). Início de uma psicologia institucionalizada que, nos anos seguintes, será atravessada pelos debates sobre decolonialismo, compromisso social e epistemicídio.'},
+  {ano:'1961',tema:'Vitalismo',cor:'#c084fc',title:'Rogers: Tornar-se Pessoa',body:'Carl Rogers publica <em>Tornar-se pessoa</em>, consolidando a Psicologia Humanista e o conceito de <strong>tendência atualizante</strong> — força inerente ao organismo em direção ao crescimento. Ressonância vitalista com o élan vital bergsoniano; base fenomenológica na escuta sem julgamento.'},
+  {ano:'1968',tema:'Organicismo',cor:'#a3e635',title:'Bertalanffy: Teoria Geral dos Sistemas',body:'Ludwig von Bertalanffy generaliza o pensamento organicista para qualquer sistema complexo. A <strong>Teoria Geral dos Sistemas</strong> influencia a terapia familiar sistêmica (Bateson, Selvini-Palazzoli), a cibernética e as teorias da complexidade. O organismo é o modelo de todo sistema aberto.'},
+  {ano:'1984',tema:'Decolonialismo',cor:'#f472b6',title:'Silvia Lane: Psicologia Social Crítica no Brasil',body:'Silvia Lane e o grupo do PUC-SP fundam a <strong>Psicologia Social Crítica brasileira</strong> — comprometida com as classes populares, com a transformação social e com a superação de uma psicologia elitista e importada. Obra: <em>Psicologia Social: o homem em movimento</em>. Marco do projeto decolonial na psicologia brasileira.'},
+  {ano:'2000',tema:'Decolonialismo',cor:'#f472b6',title:'Quijano: Colonialidade do Poder',body:'Aníbal Quijano sistematiza o conceito de <strong>colonialidade do poder</strong> — a hierarquia racial global que sobrevive às independências formais. Marco fundador do grupo Modernidade/Colonialidade. Ponto de referência central para toda reflexão sobre decolonialismo e epistemicídio na psicologia latinoamericana.'},
+  {ano:'2005',tema:'Epistemicídio',cor:'#60a5fa',title:'Carneiro: A construção do outro como não-ser',body:'Aparecida Sueli Carneiro, em sua tese doutoral na FEUSP, cunha e aprofunda o conceito de <strong>epistemicídio</strong> aplicado ao racismo brasileiro. Demonstra como o sistema educacional e o saber científico operam na negação da racionalidade negra e na impossibilidade do ser negro como sujeito de conhecimento legítimo.'},
+  {ano:'2009',tema:'Epistemicídio',cor:'#60a5fa',title:'Boaventura: Uma Epistemologia do Sul',body:'Boaventura de Sousa Santos sistematiza as <strong>epistemologias do Sul</strong> e a ecologia dos saberes. Propõe a sociologia das ausências (como saberes são tornados invisíveis) e das emergências (reconhecimento de saberes subalternizados). Referência central para todo debate sobre diversidade epistêmica na psicologia brasileira.'}
+];
+
+const CMP=[
+  {c:'Estruturalismo',o:'Elementos da consciência (sensações, imagens, afetos)',m:'Introspecção experimental em laboratório',a:'Wundt (1832–1920), Titchener (1867–1927)',e:'1879 — Leipzig',cr:'Método irreplicável; Gestalt, Funcionalismo e Behaviorismo o derrubaram'},
+  {c:'Fenomenologia',o:'Experiência vivida tal como aparece à consciência',m:'Epoché + descrição (redução fenomenológica)',a:'Husserl (1859–1938), Merleau-Ponty (1908–61), Heidegger (1889–1976)',e:'~1900 — Göttingen/Friburgo',cr:'Dificuldade de generalização; tensão com pesquisa científica convencional'},
+  {c:'Historicismo',o:'Comportamento em contexto histórico-cultural',m:'Hermenêutica / Verstehen (compreensão)',a:'Dilthey (1833–1911), Windelband (1848–1915), Foucault (1926–84)',e:'1883 — Berlim',cr:'Risco de relativismo radical; dificuldade de critérios normativos'},
+  {c:'Vitalismo',o:'Princípio vital / Força animadora irredutível',m:'Filosófico-especulativo; experimental (Driesch)',a:'Stahl (1659–1734), Bergson (1859–1941), Driesch (1867–1941)',e:'Sécs. XVII–XX',cr:'Não testável empiricamente (não falsificável); vagueza conceitual'},
+  {c:'Matriz Organicista',o:'Organismo como todo integrado e auto-organizante',m:'Sistêmico / Holístico / Experimental (Piaget)',a:'Kant (1724–1804), Piaget (1896–1980), Wertheimer (Gestalt)',e:'1790 (Kant) / 1912 (Gestalt) / 1936 (Piaget)',cr:'Dificuldade de análise isolada; risco de teleologismo acrítico'},
+  {c:'Decolonialismo',o:'Estruturas coloniais de poder e saber na psicologia',m:'Crítica epistemológica / Análise político-social',a:'Quijano (1928–2018), Fanon (1925–61), Mignolo, Silvia Lane',e:'Séc. XX–XXI (sistematizado ~2000)',cr:'Tensão com universalismo dos DH; risco de fragmentação identitária'},
+  {c:'Epistemicídio',o:'Saberes marginalizados destruídos/invisibilizados',m:'Sociologia crítica / Filosofia da ciência',a:'Sueli Carneiro (tese 2005), Boaventura de S. Santos (2009)',e:'Conceito sistematizado: 2005–2009',cr:'Dificuldade de operacionalizar empiricamente; risco de populismo epistêmico'}
+];
+
+const GCONN=[
+  {de:'Vitalismo',para:'Psicologia Humanista',tipo:'antecede',desc:'Tendência atualizante (Rogers) herda o élan vital bergsoniano como força criativa e orientadora do organismo.'},
+  {de:'Vitalismo',para:'Organicismo',tipo:'dialoga',desc:'Ambos rejeitam o reducionismo; o organicismo foca na integração das partes; o vitalismo postula princípio vital irredutível.'},
+  {de:'Estruturalismo',para:'Funcionalismo',tipo:'antecede',desc:'O funcionalismo surge como reação ao estruturalismo de Wundt/Titchener — da pergunta "quais elementos?" para "para que serve?"'},
+  {de:'Estruturalismo',para:'Behaviorismo',tipo:'antecede',desc:'O behaviorismo rejeita a introspecção estruturalista e o conceito de consciência — propõe apenas o comportamento observável.'},
+  {de:'Estruturalismo',para:'Gestalt',tipo:'antecede',desc:'A Gestalt surge em oposição direta ao atomismo estruturalista — demonstra que o todo não é soma de elementos.'},
+  {de:'Fenomenologia',para:'Humanismo (Rogers)',tipo:'antecede',desc:'A escuta fenomenológica sem julgamento fundamenta a Abordagem Centrada na Pessoa de Carl Rogers.'},
+  {de:'Fenomenologia',para:'Psicoterapia Existencial',tipo:'antecede',desc:'Heidegger e a fenomenologia existencial fundamentam a psicoterapia existencial (Yalom, Binswanger, Boss).'},
+  {de:'Historicismo',para:'Construcionismo Social',tipo:'antecede',desc:'Berger & Luckmann e Gergen herdam a perspectiva historicista — a realidade social é construída histórica e linguisticamente.'},
+  {de:'Historicismo',para:'Decolonialismo',tipo:'dialoga',desc:'Ambos situam o conhecimento histórica e culturalmente; o decolonialismo adiciona a dimensão racial e geopolítica.'},
+  {de:'Decolonialismo',para:'Epistemicídio',tipo:'dialoga',desc:'O epistemicídio é o mecanismo concreto pelo qual a colonialidade do saber (Mignolo) opera destruindo outros saberes.'},
+  {de:'Organicismo',para:'Gestalt',tipo:'antecede',desc:'A Gestalt é a aplicação mais rigorosa do organicismo à percepção: "o todo é diferente da soma das partes" como lei perceptiva fundamental.'},
+  {de:'Organicismo',para:'Terapia Sistêmica',tipo:'antecede',desc:'Bertalanffy generaliza o organicismo para terapias sistêmicas e familiares — o sistema familiar como organismo.'},
+  {de:'Epistemicídio',para:'Psicologias do Sul',tipo:'antecede',desc:'A denúncia do epistemicídio impulsiona o desenvolvimento de psicologias latinoamericanas, africanas e indígenas como alternativas legítimas.'},
+  {de:'Mecanicismo (Descartes)',para:'Vitalismo',tipo:'gera oposição',desc:'O mecanicismo cartesiano provoca diretamente a reação vitalista de Stahl (anima) e Bergson (élan vital).'},
+  {de:'Positivismo (Comte)',para:'Estruturalismo',tipo:'antecede',desc:'O ideal positivista de tornar a psicologia ciência natural pela observação rigorosa inspira diretamente o projeto wundtiano.'}
+];
+</script>
+
+<script>
+// ═══════════ STATE ═══════════
+const done=new Set();
+let qzCur=0,qzAns={},qzScore=0;
+let curTid=null;
+
+// ═══════════ INIT ═══════════
+function init(){
+  renderSbT();renderHG();renderFC();renderMMBtns();renderMM(0);
+  renderTL();renderCMP();renderGConn();initQuiz();
+}
+
+// ═══════════ SIDEBAR ═══════════
+function renderSbT(){
+  document.getElementById('sb-temas').innerHTML=T.map(t=>
+    `<li><a id="sb-t${t.id}" onclick="goTema(${t.id})">
+      <span class="qdot ${done.has(t.id)?'done':''}" id="qdot-${t.id}">${done.has(t.id)?'✓':t.id}</span>
+      <span class="tdot" style="background:${t.cor}"></span>
+      <span class="qlbl">${t.icon} ${t.title}</span></a></li>`).join('');
+}
+function setSbA(id){document.querySelectorAll('.sbn li a').forEach(a=>a.classList.remove('active'));const e=document.getElementById(id);if(e)e.classList.add('active');}
+
+// ═══════════ HOME GRID ═══════════
+function renderHG(){
+  document.getElementById('home-grid').innerHTML=T.map(t=>
+    `<div class="tcard" onclick="goTema(${t.id})" style="border-color:${t.cor}22">
+      <div class="tb" style="background:${t.cor}"></div>
+      <div class="tic">${t.icon}</div>
+      <h3 style="color:${t.cor}">${t.title}</h3><p>${t.sub}</p></div>`).join('');
+}
+
+// ═══════════ FLASHCARDS ═══════════
+function renderFC(){
+  document.getElementById('fcgrid').innerHTML=T.map(t=>
+    `<div class="fc" onclick="this.classList.toggle('flip')">
+      <div class="fcin">
+        <div class="fcf" style="border-top:3px solid ${t.cor}">
+          <span class="fctag" style="color:${t.cor}">${t.icon} ${t.title}</span>
+          <p>${t.fQ}</p><span class="fchint">clique para revelar</span>
+        </div>
+        <div class="fcb">
+          <span class="fctag" style="color:${t.cor}">Resposta</span>
+          <p>${t.fA}</p>
+        </div>
+      </div></div>`).join('');
+}
+
+// ═══════════ MIND MAP ═══════════
+function buildMM(data,ac){
+  const W=880,H=600,cx=W/2,cy=H/2;
+  const bs=data.bs,n=bs.length;
+  const ang=bs.map((_,i)=>(i/n)*Math.PI*2-Math.PI/2);
+  const R1=152,R2=278;
+  let s=`<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:820px;font-family:'Segoe UI',system-ui,sans-serif">`;
+  // lines centro→ramo
+  bs.forEach((b,i)=>{
+    const bx=cx+Math.cos(ang[i])*R1,by=cy+Math.sin(ang[i])*R1;
+    s+=`<line x1="${cx}" y1="${cy}" x2="${bx}" y2="${by}" stroke="${b.c}" stroke-width="2.2" stroke-opacity=".45"/>`;
+  });
+  // ramos e sub-nós
+  bs.forEach((b,i)=>{
+    const bx=cx+Math.cos(ang[i])*R1,by=cy+Math.sin(ang[i])*R1;
+    const hn=(b.s.length-1)/2;
+    b.s.forEach((sub,j)=>{
+      const sa=ang[i]+(j-hn)*0.31;
+      const sx=cx+Math.cos(sa)*R2,sy=cy+Math.sin(sa)*R2;
+      s+=`<line x1="${bx}" y1="${by}" x2="${sx}" y2="${sy}" stroke="${b.c}" stroke-width="1.1" stroke-opacity=".32"/>`;
+      const txt=sub.length>22?sub.slice(0,21)+'…':sub;
+      const pw=Math.max(80,txt.length*6.6+18);
+      s+=`<rect x="${sx-pw/2}" y="${sy-13}" width="${pw}" height="26" rx="13" fill="${b.c}1a" stroke="${b.c}" stroke-width=".9" stroke-opacity=".6"/>`;
+      s+=`<text x="${sx}" y="${sy+5}" text-anchor="middle" font-size="${txt.length>16?9.5:11}" fill="${b.c}" font-weight="500">${txt}</text>`;
+    });
+    const lbl=b.l.length>20?b.l.slice(0,19)+'…':b.l;
+    const pw=Math.max(104,lbl.length*8.2+24);
+    s+=`<rect x="${bx-pw/2}" y="${by-21}" width="${pw}" height="42" rx="21" fill="${b.c}28" stroke="${b.c}" stroke-width="1.6"/>`;
+    s+=`<text x="${bx}" y="${by+5}" text-anchor="middle" font-size="${lbl.length>16?11:13}" fill="${b.c}" font-weight="700">${lbl}</text>`;
+  });
+  // nó central
+  const cw=data.center.split(' ');
+  s+=`<circle cx="${cx}" cy="${cy}" r="66" fill="${ac}1a" stroke="${ac}" stroke-width="2.4"/>`;
+  if(cw.length<=2){
+    s+=`<text x="${cx}" y="${cy+5}" text-anchor="middle" font-size="14" fill="${ac}" font-weight="800">${data.center}</text>`;
+  } else {
+    const h=Math.ceil(cw.length/2);
+    s+=`<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="12.5" fill="${ac}" font-weight="800">${cw.slice(0,h).join(' ')}</text>`;
+    s+=`<text x="${cx}" y="${cy+13}" text-anchor="middle" font-size="12.5" fill="${ac}" font-weight="800">${cw.slice(h).join(' ')}</text>`;
+  }
+  return s+'</svg>';
+}
+function renderMMBtns(){
+  document.getElementById('mm-btns').innerHTML=T.map((t,i)=>
+    `<div class="tl-card" style="border-left:3px solid ${t.cor}" onclick="renderMM(${i})">
+      <h3 style="color:${t.cor}">${t.icon} ${t.title}</h3></div>`).join('');
+}
+function renderMM(idx){
+  const t=T[idx];
+  document.getElementById('mm-main').innerHTML=
+    `<div class="ctit">🗺️ Mapa Mental — ${t.icon} ${t.title}</div><div class="mmwrap">${buildMM(t.mm,t.cor)}</div>`;
+}
+
+// ═══════════ TIMELINE ═══════════
+function renderTL(){
+  document.getElementById('tl-wrap').innerHTML=TL.map((e,i)=>{
+    const dot=`<div style="position:absolute;left:-24px;top:16px;width:14px;height:14px;border-radius:50%;border:2px solid #0c0c14;background:${e.cor};z-index:2"></div>`;
+    return `<div class="tli" style="position:relative">${dot}
+      <div class="tli-in" style="border-left:3px solid ${e.cor}">
+        <div class="tl-head">
+          <span class="tl-yr" style="background:${e.cor}22;color:${e.cor};border:1px solid ${e.cor}44">${e.ano}</span>
+          <span class="tl-tag" style="color:${e.cor}">${e.tema}</span>
+        </div>
+        <div class="tl-title">${e.title}</div>
+        <div class="tl-body">${e.body}</div>
+      </div></div>`;}).join('');
+}
+
+// ═══════════ COMPARE ═══════════
+function renderCMP(){
+  const heads=['Corrente','Objeto de Estudo','Método','Autores Centrais','Época/Origem','Crítica Principal'];
+  const keys=['c','o','m','a','e','cr'];
+  const cors=['#f87171','#34d399','#fb923c','#c084fc','#a3e635','#f472b6','#60a5fa'];
+  document.getElementById('ctable').innerHTML=
+    `<thead><tr>${heads.map(h=>`<th>${h}</th>`).join('')}</tr></thead>`+
+    `<tbody>${CMP.map((r,i)=>`<tr>${keys.map((k,ki)=>`<td${ki===0?` style="color:${cors[i]}"`:''}>${r[k]}</td>`).join('')}</tr>`).join('')}</tbody>`;
+}
+
+// ═══════════ GLOBAL CONNECTIONS ═══════════
+function renderGConn(){
+  const GMM={center:'Psicologia — Correntes',bs:[
+    {l:'Mecanicismo/Positivismo',c:'#94a3b8',s:['Estruturalismo (Wundt)','Behaviorismo (Watson)','Funcionalismo (James)','Psicofísica (Fechner)']},
+    {l:'Crítica ao Mecanicismo',c:'#a3e635',s:['Vitalismo (Bergson)','Organicismo (Piaget)','Gestalt (Wertheimer)','Teoria Sistêmica']},
+    {l:'Subjetividade e Sentido',c:'#34d399',s:['Fenomenologia (Husserl)','Historicismo (Dilthey)','Humanismo (Rogers)','Existencialismo']},
+    {l:'Crítica Sócio-Política',c:'#f472b6',s:['Decolonialismo (Quijano)','Epistemicídio (Carneiro)','Psic. Comunitária (Lane)','Epistemologias do Sul']}
+  ]};
+  document.getElementById('global-mm').innerHTML=buildMM(GMM,'#c084fc');
+  const tipoCor={antecede:'#34d399',dialoga:'#60a5fa','gera oposição':'#f87171'};
+  document.getElementById('global-conn-list').innerHTML=GCONN.map(c=>`
+    <div class="card" style="margin-bottom:10px;border-left:3px solid ${tipoCor[c.tipo]||'#94a3b8'}">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px">
+        <strong style="color:var(--tx);font-size:14px">${c.de}</strong>
+        <span style="font-size:12px;font-weight:700;color:${tipoCor[c.tipo]};background:${tipoCor[c.tipo]}22;padding:3px 9px;border-radius:12px">${c.tipo}</span>
+        <strong style="color:var(--tx);font-size:14px">${c.para}</strong>
+      </div>
+      <p style="font-size:13px;color:var(--tx2)">${c.desc}</p></div>`).join('');
+}
+
+// ═══════════ QUIZ ═══════════
+function initQuiz(){qzCur=0;qzAns={};qzScore=0;renderQZ();}
+function renderQZ(){
+  const sh=document.getElementById('qshell');
+  if(qzCur>=ALL_QUIZ.length){
+    const pct=Math.round(qzScore/ALL_QUIZ.length*100);
+    sh.innerHTML=`<div class="score-card">
+      <h2>Quiz concluído! 🎉</h2>
+      <div class="big-score" style="color:${pct>=70?'var(--c4)':'var(--c6)'}">${qzScore}/${ALL_QUIZ.length}</div>
+      <p>${pct}% de aproveitamento — ${pct>=80?'Excelente domínio do conteúdo!':pct>=60?'Bom! Revise os temas com erros.':'Revise o conteúdo e tente novamente.'}</p>
+      <button class="btn btn-p" onclick="initQuiz()" style="font-size:14px;padding:10px 22px">🔄 Refazer Quiz</button></div>`;
+    return;
+  }
+  const q=ALL_QUIZ[qzCur];
+  const isAns=qzAns[qzCur]!==undefined;
+  const pct=Math.round(qzCur/ALL_QUIZ.length*100);
+  const isCorr=qzAns[qzCur+'_c'];
+  sh.innerHTML=`
+    <div class="qpbar"><div class="qpfill" style="width:${pct}%"></div></div>
+    <div class="qinfo">
+      <span>Questão ${qzCur+1} de ${ALL_QUIZ.length}</span>
+      <span style="color:${q.tcor};font-weight:700">${q.ticon} ${q.ttitle}</span>
+      <span>Acertos: ${qzScore}</span>
+    </div>
+    <div class="qq-card" style="border-top:3px solid ${q.tcor}">
+      <div class="qq-tema" style="color:${q.tcor}">${q.ticon} ${q.ttitle}</div>
+      <div class="qq-text">${q.q}</div>
+      <div class="qopts">
+        ${q.opts.map((o,i)=>{
+          let cls='qopt';
+          if(isAns){if(o.c)cls+=' correct';else if(i===qzAns[qzCur]&&!o.c)cls+=' wrong';}
+          return `<button class="${cls}"${isAns?' disabled':''} onclick="ansQZ(${i},${o.c})">${String.fromCharCode(65+i)}) ${o.t}</button>`;
+        }).join('')}
+      </div>
+      <div class="qfb ${isAns?'show':''} ${isAns?(isCorr?'ok':'nok'):''}">
+        ${isAns?`<div class="qfb-head">${isCorr?'✓ Correto!':'✗ Incorreto'}</div>
+        <div class="qfb-body">${isCorr?q.ok:q.nok}</div>
+        <div class="qfb-ref">📚 <strong>Referência:</strong> ${q.ref}</div>`:''}
+      </div>
+    </div>
+    <div class="qnav">
+      <button class="btn"${qzCur===0?' disabled':''} style="${qzCur===0?'opacity:.35':''}" onclick="mvQZ(-1)">← Anterior</button>
+      ${isAns?`<button class="btn btn-p" onclick="mvQZ(1)">${qzCur===ALL_QUIZ.length-1?'Ver Resultado →':'Próxima →'}</button>`:''}
+      <button class="sbtn" onclick="goTema(${q.tid});setTimeout(()=>swTab('conteudo',null),400)" style="margin-left:auto">📖 Estudar este tema</button>
+    </div>`;
+}
+function ansQZ(oi,ic){
+  if(qzAns[qzCur]!==undefined)return;
+  qzAns[qzCur]=oi;qzAns[qzCur+'_c']=ic;
+  if(ic){qzScore++;document.getElementById('stat-quiz').textContent=parseInt(document.getElementById('stat-quiz').textContent)+1;}
+  renderQZ();
+}
+function mvQZ(d){qzCur=Math.max(0,qzCur+d);renderQZ();}
+
+// ═══════════ TEMA DETALHE ═══════════
+function goTema(id){
+  const t=T.find(x=>x.id===id);if(!t)return;
+  curTid=id;hideAll();
+  document.getElementById('sec-tema').style.display='block';
+  document.getElementById('toptit').textContent=`${t.icon} ${t.title}`;
+  setSbA(`sb-t${id}`);
+  const bdg=document.getElementById('qbdg');
+  bdg.textContent=t.icon;bdg.style.background=t.cor+'22';bdg.style.border=`2px solid ${t.cor}`;
+  document.getElementById('qtit').textContent=t.title;
+  document.getElementById('qsub').textContent=t.sub;
+  const prev=document.getElementById('btn-prev');
+  prev.disabled=id<=1;prev.style.opacity=id<=1?'.35':'1';
+  const next=document.getElementById('btn-next');
+  next.disabled=id>=T.length;next.style.opacity=id>=T.length?'.35':'1';
+  updDB();
+  // conteudo
+  document.getElementById('kpills').innerHTML=t.kws.map(k=>`<span class="kp">${k}</span>`).join('');
+  document.getElementById('mnem-wrap').innerHTML=`<div class="mnem">💡 <strong>Macete:</strong> ${t.mnem}</div>`;
+  document.getElementById('ab-main').innerHTML=t.content;
+  document.getElementById('refbox').textContent=t.ref;
+  // mapa
+  document.getElementById('mm-tit').textContent=t.title;
+  document.getElementById('q-mm').innerHTML=buildMM(t.mm,t.cor);
+  // conexoes
+  document.getElementById('conn-tit').textContent=t.title;
+  const tipoCor={antecede:'#34d399',dialoga:'#60a5fa','opõe-se a':'#f87171','opõe-se':'#f87171'};
+  document.getElementById('conn-grid').innerHTML=t.conns.map(c=>`
+    <div class="conn-card" style="border-top:3px solid ${c.cor}">
+      <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:${tipoCor[c.tipo.toLowerCase()]||'#94a3b8'};margin-bottom:5px">${c.tipo}</div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:6px;color:${c.cor}">${c.nome}</div>
+      <div style="font-size:12px;color:var(--tx3);line-height:1.5">${c.desc}</div>
+    </div>`).join('');
+  const connMM={center:t.title,bs:t.conns.map(c=>({l:c.nome,c:c.cor,s:[c.tipo,c.desc.slice(0,38)+'…']}))};
+  document.getElementById('conn-mm').innerHTML=buildMM(connMM,t.cor);
+  // ai
+  document.getElementById('aimsgs').innerHTML=`<div class="aimsg bot"><div class="aiav">IA</div><div class="aibub">Olá! Vamos aprofundar <strong>${t.title}</strong>. Qual aspecto você quer explorar?</div></div>`;
+  document.getElementById('qps').innerHTML=[
+    `Qual a diferença entre ${t.title} e ${T[(id%T.length)].title}?`,
+    `Dê um exemplo prático de ${t.title} na psicologia clínica`,
+    `Como ${t.title} aparece em questões dissertativas?`,
+    `Quais autores e obras devo citar sobre ${t.title}?`,
+    `Conecte ${t.title} com os outros temas da disciplina`
+  ].map(p=>`<button class="qpbtn" onclick="setPr(this)">${p}</button>`).join('');
+  swTab('conteudo',document.querySelector('#vtabs-bar .vtab[data-p="conteudo"]'));
+  scrT();closeSb();
+}
+function goQuizTema(){
+  const t=T.find(x=>x.id===curTid);if(!t)return;
+  // set quiz to first question of this theme
+  const idx=ALL_QUIZ.findIndex(q=>q.tid===t.id);
+  if(idx>=0){qzCur=idx;}
+  goSec('quiz');
+}
+function navQ(d){const idx=T.findIndex(t=>t.id===curTid);const n=T[idx+d];if(n)goTema(n.id);}
+function swTab(p,btn){
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('#vtabs-bar .vtab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('panel-'+p).classList.add('active');
+  if(btn)btn.classList.add('active');
+  else{const b=document.querySelector(`#vtabs-bar .vtab[data-p="${p}"]`);if(b)b.classList.add('active');}
+  scrT();
+}
+function toggleDone(){
+  if(!curTid)return;
+  if(done.has(curTid))done.delete(curTid);else done.add(curTid);
+  updProg();renderSbT();updDB();setSbA(`sb-t${curTid}`);
+}
+function updDB(){
+  const btn=document.getElementById('done-btn');
+  const d=done.has(curTid);
+  btn.textContent=d?'✓ Estudado':'Marcar como estudado';
+  btn.className='done-btn'+(d?' done':'');
+}
+function updProg(){
+  const pct=Math.round(done.size/T.length*100);
+  document.getElementById('pf1').style.width=pct+'%';
+  document.getElementById('pf2').style.width=pct+'%';
+  document.getElementById('pbl1').textContent=done.size+' de '+T.length+' temas concluídos';
+  document.getElementById('pbl2').textContent=done.size+'/7';
+  document.getElementById('stat-done').textContent=done.size;
+}
+
+// ═══════════ AI ═══════════
+function setPr(btn){document.getElementById('ai-inp').value=btn.textContent;}
+async function sendAI(){
+  const t=T.find(x=>x.id===curTid);if(!t)return;
+  const inp=document.getElementById('ai-inp');const msg=inp.value.trim();if(!msg)return;
+  inp.value='';
+  const box=document.getElementById('aimsgs');
+  box.innerHTML+=`<div class="aimsg user"><div class="aiav">EU</div><div class="aibub">${esc(msg)}</div></div>`;
+  box.innerHTML+=`<div class="aimsg bot" id="typ-r"><div class="aiav">IA</div><div class="aibub"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div></div>`;
+  box.scrollTop=box.scrollHeight;
+  document.getElementById('ai-btn').disabled=true;
+  const sys=`Você é professor de História e Sistemas da Psicologia para o 1º período de Psicologia na UNINASSAU. Tema atual: "${t.title} — ${t.sub}". Responda de forma clara, aprofundada e academicamente rigorosa. Use exemplos concretos. Conecte com outros temas quando pertinente: Vitalismo, Decolonialismo, Historicismo, Fenomenologia, Epistemicídio, Estruturalismo, Matriz Organicista. Cite sempre autores, obras e anos. Responda em português do Brasil.`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:msg}]})});
+    const data=await res.json();
+    const reply=data.content?.map(c=>c.text||'').join('')||'Não foi possível obter resposta. Tente novamente.';
+    document.getElementById('typ-r').innerHTML=`<div class="aiav">IA</div><div class="aibub">${reply.replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  }catch(e){
+    document.getElementById('typ-r').innerHTML=`<div class="aiav">IA</div><div class="aibub" style="color:var(--c6l)">Erro de conexão. Verifique sua internet e tente novamente.</div>`;
+  }
+  document.getElementById('ai-btn').disabled=false;
+  box.scrollTop=box.scrollHeight;
+}
+document.getElementById('ai-inp').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendAI();}});
+
+// ═══════════ NAVIGATION ═══════════
+function scrT(){document.getElementById('scr').scrollTo({top:0,behavior:'smooth'});}
+function hideAll(){['sec-home','sec-tema','sec-quiz','sec-mm','sec-fc','sec-tl','sec-cmp','sec-conn'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});}
+function goHome(){hideAll();document.getElementById('sec-home').style.display='block';document.getElementById('toptit').textContent='Teoria e Sistemas em Psicologia';setSbA('sb-home');scrT();closeSb();}
+function goSec(n){
+  hideAll();document.getElementById('sec-'+n).style.display='block';
+  const tt={quiz:'✏️ Quiz Completo',mm:'🗺️ Mapas Mentais',fc:'🃏 Flashcards',tl:'📅 Linha do Tempo',cmp:'⚖️ Comparativo',conn:'🔗 Conexões entre Temas'};
+  document.getElementById('toptit').textContent=tt[n]||n;setSbA('sb-'+n);scrT();closeSb();
+  if(n==='quiz')renderQZ();
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toggleSb(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('ovl').classList.toggle('show');}
+function closeSb(){document.getElementById('sidebar').classList.remove('open');document.getElementById('ovl').classList.remove('show');}
+
+init();
+</script>
+</body>
+</html>
